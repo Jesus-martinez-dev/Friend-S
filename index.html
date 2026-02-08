@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend`S</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+       
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-light));
+            --gradient-danger: linear-gradient(135deg, var(--danger), #f97316);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 30%);
+        }
+
+      
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: var(--text-gray);
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .accent-text {
+            color: var(--accent);
+        }
+
+        .danger-text {
+            color: var(--danger);
+        }
+
+       
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-subtitle {
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+      
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+        }
+
+        @keyframes streak-fire {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        @keyframes progress-glow {
+            0%, 100% { box-shadow: 0 0 5px var(--accent); }
+            50% { box-shadow: 0 0 20px var(--accent); }
+        }
+
+        @keyframes warning-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .glow {
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .streak-fire {
+            animation: streak-fire 1s ease-in-out infinite;
+        }
+
+        .warning-pulse {
+            animation: warning-pulse 2s ease-in-out infinite;
+        }
+
+       
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+      
+        .hero {
+            padding-top: 10rem;
+            padding-bottom: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            margin-top: 4rem;
+            position: relative;
+            height: 400px;
+        }
+
+        .streak-visualization {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--gradient-dark);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .streak-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-border);
+            z-index: 1;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            z-index: 2;
+            width: 40%;
+        }
+
+        .timeline-milestone {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            flex: 1;
+        }
+
+        .milestone-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 3px solid var(--card-border);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .milestone-dot.active {
+            background: var(--gradient-primary);
+            border-color: var(--primary);
+            animation: progress-glow 2s ease-in-out infinite;
+        }
+
+        .milestone-dot.completed {
+            background: var(--gradient-accent);
+            border-color: var(--accent);
+        }
+
+        .milestone-dot.danger {
+            background: var(--gradient-danger);
+            border-color: var(--danger);
+        }
+
+       
+        .streak-system {
+            background: var(--darker);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .streak-header {
+            background: var(--gradient-primary);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .streak-content {
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .streak-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .streak-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .streak-reward {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 1rem 0;
+            color: var(--accent);
+        }
+
+        .streak-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+       
+        .milestones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .milestone-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .milestone-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        
+        .how-it-works {
+            background: var(--gradient-dark);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            z-index: 2;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+       
+        .token-distribution {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .distribution-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .token-amount {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+       
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--gradient-dark);
+            border-radius: var(--radius-lg);
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+      
+        .footer {
+            background: var(--darker);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-gray);
+        }
+
+        .credit {
+            display: inline-block;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-left: 0.5rem;
+        }
+
+       
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-top: 1px solid var(--card-border);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .hero {
+                padding-top: 8rem;
+            }
+            
+            .streak-timeline {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            
+            .timeline-line {
+                display: none;
+            }
+            
+            .timeline-progress {
+                display: none;
+            }
+        }
+
+       
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+        }
+
+       
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+            height: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+        }
+
+       
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+    </style>
+</head>
+<body>
+  
+    <div id="particles-container"></div>
+
+    
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire streak-fire"></i>
+                </div>
+                <span class="logo-text">Friend`S</span>
+            </a>
+            
+            <button class="mobile-menu-btn" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="#how-it-works" class="nav-link">Cómo Funciona</a>
+                <a href="#streaks" class="nav-link">Sistema de Rachas</a>
+                <a href="#milestones" class="nav-link">Metas</a>
+                <a href="#tokenomics" class="nav-link">Tokenomics</a>
+                <a href="login.html" class="btn btn-primary">Comenzar Gratis</a>
+            </nav>
+        </div>
+    </header>
+
+   
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title gradient-text">
+                    Red Social con 
+                    <span class="accent-text">Recompensas Reales</span>
+                    en Hive
+                </h1>
+                <p class="hero-description">
+                    Conecta con amigos, mantén conversaciones activas y construye rachas 
+                    consecutivas para ganar tokens HIVE. Cada interacción cuenta y cada 
+                    racha te acerca a recompensas mayores.
+                </p>
+                <div class="hero-buttons">
+                    <a href="login.html" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Comenzar Ahora
+                    </a>
+                    <a href="#how-it-works" class="btn btn-secondary">
+                        <i class="fas fa-play-circle"></i>
+                        Ver Demo
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="streak-visualization floating">
+                    <div class="section-header">
+                        <h3>Progreso de Rachas</h3>
+                        <p>Visualiza tu camino hacia las recompensas máximas</p>
+                    </div>
+                    
+                    <div class="streak-timeline">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-progress" id="timelineProgress"></div>
+                        
+                        <div class="timeline-milestone">
+                            <div class="milestone-dot danger warning-pulse" title="Inicio">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div>Día 0</div>
+                            <small>Comienza a chatear</small>
+                        </div>
+                        
+                        <div class="timeline-milestone">
+                            <div class="milestone-dot active" title="Activación">
+                                <span>3</span>
+                            </div>
+                            <div>Día 3</div>
+                            <small>+0.5 HIVE</small>
+                        </div>
+                        
+                        <div class="timeline-milestone">
+                            <div class="milestone-dot" title="Meta 1">
+                                <span>10</span>
+                            </div>
+                            <div>Día 10</div>
+                            <small>+2 HIVE</small>
+                        </div>
+                        
+                        <div class="timeline-milestone">
+                            <div class="milestone-dot" title="Meta 2">
+                                <span>20</span>
+                            </div>
+                            <div>Día 20</div>
+                            <small>+5 HIVE</small>
+                        </div>
+                        
+                        <div class="timeline-milestone">
+                            <div class="milestone-dot" title="Meta 3">
+                                <span>30</span>
+                            </div>
+                            <div>Día 30</div>
+                            <small>+10 HIVE</small>
+                        </div>
+                        
+                        <div class="timeline-milestone">
+                            <div class="milestone-dot" title="Meta Máxima">
+                                <span>500</span>
+                            </div>
+                            <div>Día 500</div>
+                            <small>Recompensa Máxima</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">EL PROCESO</span>
+                <h2>Cómo Funciona el Sistema</h2>
+                <p>Un sistema simple pero poderoso que recompensa la consistencia</p>
+            </div>
+            
+            <div class="how-it-works">
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Conecta con Amigos</h3>
+                            <p>Agrega amigos en la plataforma y comienza a chatear. La comunicación debe ser activa y consistente.</p>
+                            <span class="badge badge-primary">
+                                <i class="fas fa-user-friends"></i>
+                                Interacción social
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Activa tu Rachas</h3>
+                            <p>Después de 3 días consecutivos de chat activo con un amigo, activas la racha y ganas tus primeros 0.5 HIVE.</p>
+                            <span class="badge badge-warning">
+                                <i class="fas fa-calendar-alt"></i>
+                                3 días requeridos
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Mantén la Consistencia</h3>
+                            <p>Continúa chateando diariamente para mantener tu racha activa y alcanzar las metas establecidas.</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Alcanza Metas y Gana</h3>
+                            <p>Cada meta alcanzada (10, 20, 30 días... hasta 500) te otorga recompensas progresivamente mayores en HIVE.</p>
+                            <span class="badge badge-success">
+                                <i class="fas fa-trophy"></i>
+                                Recompensas crecientes
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="streak-warning">
+                    <h4>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        ¡Atención Importante!
+                    </h4>
+                    <p>Si no chateas con un amigo durante un día completo, perderás la racha con esa persona y tendrás que comenzar desde cero. La consistencia es clave para maximizar tus ganancias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <section class="section" id="streaks">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">REWARD SYSTEM</span>
+                <h2>Sistema de Rachas por Metas</h2>
+                <p>Gana tokens HIVE por mantener conversaciones consistentes con tus amigos</p>
+            </div>
+            
+            <div class="streak-system">
+                <div class="streak-header">
+                    <h3 style="color: white;">Estructura de Recompensas por Rachas</h3>
+                    <p style="color: rgba(255, 255, 255, 0.9);">Tokens HIVE acumulativos por días consecutivos</p>
+                </div>
+                <div class="streak-content">
+                    <div class="streak-card">
+                        <div class="streak-icon accent-text">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>Activación Inicial</h4>
+                        <div class="streak-reward">+0.5 HIVE</div>
+                        <p>3 días consecutivos de chat activo con un amigo</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 30%"></div>
+                        </div>
+                        <small>Meta: 3/3 días</small>
+                    </div>
+                    
+                    <div class="streak-card">
+                        <div class="streak-icon">
+                            <i class="fas fa-flag-checkered"></i>
+                        </div>
+                        <h4>Primera Meta</h4>
+                        <div class="streak-reward">+2 HIVE</div>
+                        <p>10 días consecutivos manteniendo la racha activa</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 60%"></div>
+                        </div>
+                        <small>Meta: 10/10 días</small>
+                    </div>
+                    
+                    <div class="streak-card">
+                        <div class="streak-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Meta Intermedia</h4>
+                        <div class="streak-reward">+5 HIVE</div>
+                        <p>20 días de consistencia en la comunicación</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 40%"></div>
+                        </div>
+                        <small>Meta: 20/20 días</small>
+                    </div>
+                    
+                    <div class="streak-card">
+                        <div class="streak-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4>Meta Avanzada</h4>
+                        <div class="streak-reward">+10 HIVE</div>
+                        <p>30 días sin interrupciones en las conversaciones</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <small>Meta: 30/30 días</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <section class="section" id="milestones">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">MARCAS IMPORTANTES</span>
+                <h2>Metas y Recompensas</h2>
+                <p>Cada meta alcanzada representa un nuevo nivel de recompensas</p>
+            </div>
+            
+            <div class="milestones-grid">
+                <div class="card milestone-card">
+                    <div class="milestone-badge">Activación</div>
+                    <div class="streak-icon">
+                        <i class="fas fa-play-circle" style="color: var(--primary);"></i>
+                    </div>
+                    <h3>Día 3</h3>
+                    <p>Después de 3 días consecutivos de chat activo con un amigo, la racha se activa y recibes tu primera recompensa.</p>
+                    <div class="streak-reward">0.5 HIVE</div>
+                    <small>Recompensa inicial</small>
+                </div>
+                
+                <div class="card milestone-card">
+                    <div class="milestone-badge">Estabilidad</div>
+                    <div class="streak-icon">
+                        <i class="fas fa-shield-alt" style="color: var(--accent);"></i>
+                    </div>
+                    <h3>Día 10</h3>
+                    <p>Al mantener la racha por 10 días, demuestras consistencia y recibes una recompensa significativamente mayor.</p>
+                    <div class="streak-reward">2 HIVE</div>
+                    <small>Recompensa de consistencia</small>
+                </div>
+                
+                <div class="card milestone-card">
+                    <div class="milestone-badge">Compromiso</div>
+                    <div class="streak-icon">
+                        <i class="fas fa-handshake" style="color: var(--warning);"></i>
+                    </div>
+                    <h3>Día 20</h3>
+                    <p>20 días de racha activa representan un compromiso sólido con la plataforma y tus conexiones sociales.</p>
+                    <div class="streak-reward">5 HIVE</div>
+                    <small>Recompensa de compromiso</small>
+                </div>
+                
+                <div class="card milestone-card">
+                    <div class="milestone-badge">Élite</div>
+                    <div class="streak-icon">
+                        <i class="fas fa-gem" style="color: var(--secondary);"></i>
+                    </div>
+                    <h3>Día 30</h3>
+                    <p>Un mes completo de racha ininterrumpida te coloca en el nivel de usuarios élite con recompensas máximas.</p>
+                    <div class="streak-reward">10 HIVE</div>
+                    <small>Recompensa élite</small>
+                </div>
+            </div>
+            
+            <div class="section-header" style="margin-top: 4rem;">
+                <h3>Meta Máxima: Día 500</h3>
+                <p>El logro definitivo en Friend`S - Recompensas extraordinarias por consistencia excepcional</p>
+            </div>
+            
+            <div class="card" style="text-align: center; padding: 3rem;">
+                <div class="streak-icon">
+                    <i class="fas fa-trophy" style="font-size: 4rem; color: gold;"></i>
+                </div>
+                <h2>500 Días de Rachas</h2>
+                <p>Menos del 1% de los usuarios alcanzan esta meta. Representa más de un año y medio de consistencia absoluta en tus interacciones sociales.</p>
+                <div class="streak-reward" style="font-size: 3rem;">+500 HIVE</div>
+                <p style="color: var(--text-gray);">Recompensa máxima acumulada + NFT exclusivo + Beneficios especiales</p>
+                <div class="progress-container" style="height: 20px; margin: 2rem auto; max-width: 500px;">
+                    <div class="progress-bar" style="width: 5%"></div>
+                </div>
+                <small>0.8% de usuarios alcanzan esta meta</small>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="section" id="tokenomics">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">ECONOMÍA DEL PROYECTO</span>
+                <h2>Distribución Transparente</h2>
+                <p>Un sistema económico sostenible basado en la blockchain de Hive</p>
+            </div>
+            
+            <div class="token-distribution">
+                <div class="distribution-card">
+                    <div class="token-amount">70%</div>
+                    <h4>Recompensas a Usuarios</h4>
+                    <p>Distribuido entre usuarios por rachas activas y participación consistente</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 70%"></div>
+                    </div>
+                </div>
+                
+                <div class="distribution-card">
+                    <div class="token-amount">15%</div>
+                    <h4>Desarrollo y Mantenimiento</h4>
+                    <p>Para mejora continua, nuevas features y soporte técnico</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 15%"></div>
+                    </div>
+                </div>
+                
+                <div class="distribution-card">
+                    <div class="token-amount">10%</div>
+                    <h4>Fondo de Reserva</h4>
+                    <p>Garantiza la estabilidad y sostenibilidad a largo plazo</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 10%"></div>
+                    </div>
+                </div>
+                
+                <div class="distribution-card">
+                    <div class="token-amount">5%</div>
+                    <h4>Equipo y Early Adopters</h4>
+                    <p>Recompensa por desarrollo inicial y contribuciones fundamentales</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 5%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h2 class="cta-title">¿Listo para Transformar tus Interacciones Sociales?</h2>
+                <p style="max-width: 600px; margin: 0 auto 2rem;">
+                    Cada conversación, cada conexión, cada racha mantenida se convierte en valor real en la blockchain de Hive. 
+                    Únete a la revolución de las redes sociales con recompensas tangibles.
+                </p>
+                <a href="login.html" class="btn btn-primary pulse" style="font-size: 1.25rem; padding: 1.25rem 3rem;">
+                    <i class="fas fa-user-plus"></i>
+                    Registrarse y Comenzar
+                </a>
+                <p style="margin-top: 2rem; font-size: 0.875rem; color: var(--text-gray);">
+                    <i class="fas fa-bolt"></i> 3 días para activar primera racha • 
+                    <i class="fas fa-shield-alt"></i> Sistema anti-fraude • 
+                    <i class="fas fa-sync-alt"></i> Recompensas automáticas
+                </p>
+            </div>
+        </div>
+    </section>
+
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <div class="logo-icon" style="width: 30px; height: 30px; border-radius: 8px;">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <span class="logo-text">Friend`S</span>
+                    </div>
+                    <p style="color: var(--text-gray); max-width: 300px;">
+                        Red social descentralizada que recompensa la consistencia y calidad de las interacciones sociales mediante tokens HIVE.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;">Enlaces Rápidos</h4>
+                    <div class="footer-links">
+                        <a href="#how-it-works" class="nav-link">Cómo Funciona</a>
+                        <a href="#streaks" class="nav-link">Sistema de Rachas</a>
+                        <a href="#milestones" class="nav-link">Metas</a>
+                        <a href="login.html" class="nav-link">Registro</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;">Recursos</h4>
+                    <div class="footer-links">
+                        <a href="#" class="nav-link">Documentación</a>
+                        <a href="#" class="nav-link">API para Developers</a>
+                        <a href="#" class="nav-link">Política de Privacidad</a>
+                        <a href="#" class="nav-link">Términos de Servicio</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;">Conecta con Hive</h4>
+                    <div class="footer-links">
+                        <a href="https://hive.io" target="_blank" class="nav-link">
+                            <i class="fas fa-external-link-alt"></i> Hive Blockchain
+                        </a>
+                        <a href="https://hive-keychain.com" target="_blank" class="nav-link">
+                            <i class="fas fa-wallet"></i> Hive Keychain
+                        </a>
+                        <a href="https://api.hive.blog" target="_blank" class="nav-link">
+                            <i class="fas fa-code"></i> API Hive
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>
+                    © 2026 Friend`S - Social Network with Streak Reward System.
+                    Todos los derechos reservados.
+                    <br>
+                    Potenciado por Hive Blockchain • Transparente • Descentralizado
+                    <br>
+                    <span style="display: block; margin-top: 1rem; font-size: 0.9rem;">
+                        Developed with precision by <span class="credit">S74R</span>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+       
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+       
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const colors = ['#6366f1', '#8b5cf6', '#10b981', '#34d399'];
+            
+            for (let i = 0; i < 40; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                
+                const size = Math.random() * 4 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+               
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                
+                
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                
+                
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+       
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const rect = bar.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8 && !bar.dataset.animated) {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    
+                    setTimeout(() => {
+                        bar.style.width = width;
+                        bar.dataset.animated = 'true';
+                    }, 300);
+                }
+            });
+        }
+
+       
+        function setupTimeline() {
+            const timelineProgress = document.getElementById('timelineProgress');
+            const milestoneDots = document.querySelectorAll('.milestone-dot');
+            
+           
+            const currentDay = 12; 
+            const maxDay = 500;
+            const progressPercent = (currentDay / maxDay) * 100;
+            
+            timelineProgress.style.width = `${Math.min(progressPercent, 100)}%`;
+            
+           
+            milestoneDots.forEach(dot => {
+                const dayText = dot.querySelector('span') ? dot.querySelector('span').textContent : '';
+                if (dayText && parseInt(dayText) <= currentDay) {
+                    dot.classList.add('completed');
+                    dot.classList.remove('active', 'danger');
+                }
+            });
+        }
+
+       
+        function animateCounters() {
+            const counters = document.querySelectorAll('.token-amount');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                let current = 0;
+                const increment = target / 30;
+                const duration = 1500;
+                const stepTime = duration / (target / increment);
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = `${Math.round(current)}%`;
+                        setTimeout(updateCounter, stepTime);
+                    } else {
+                        counter.textContent = `${target}%`;
+                    }
+                };
+                
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(counter);
+            });
+        }
+
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        
+        function createFireEffect() {
+            const fireElements = document.querySelectorAll('.streak-fire');
+            fireElements.forEach(fire => {
+                setInterval(() => {
+                    const randomHue = Math.floor(Math.random() * 30) + 10; // Naranja-rojo
+                    fire.style.color = `hsl(${randomHue}, 100%, 60%)`;
+                }, 500);
+            });
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setupTimeline();
+            animateCounters();
+            createFireEffect();
+            
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        animateProgressBars();
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+          
+            document.querySelectorAll('.section').forEach(section => {
+                observer.observe(section);
+            });
+            
+          
+            setTimeout(animateProgressBars, 500);
+            
+      
+            window.addEventListener('scroll', animateProgressBars);
+        });
+
+        
+        document.querySelector('.streak-warning').addEventListener('click', function() {
+            this.classList.add('warning-pulse');
+            setTimeout(() => {
+                this.classList.remove('warning-pulse');
+            }, 1000);
+            
+           
+            const originalBg = this.style.background;
+            this.style.background = 'rgba(239, 68, 68, 0.2)';
+            setTimeout(() => {
+                this.style.background = originalBg;
+            }, 500);
+        });
+    </script>
+</body>
+</html>

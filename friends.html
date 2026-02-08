@@ -1,0 +1,2233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigos - Friend`S</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-light));
+            --gradient-danger: linear-gradient(135deg, var(--danger), #f97316);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 30%);
+        }
+
+       
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--darker);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .user-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-stats {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .stat-value.qp {
+            color: var(--accent);
+        }
+
+        .stat-value.hive {
+            color: #ff0080;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-title p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-success {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        
+        .friends-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+        }
+
+        .friends-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .friend-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .friend-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .friend-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .friend-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .friend-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .friend-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+
+        .friend-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-online {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+
+        .status-offline {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-gray);
+        }
+
+        .status-active {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .friend-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+       
+        .search-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+
+        .filter-tag.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+       
+        .recommendations-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .recommendation-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+       
+        .requests-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+        }
+
+        .request-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .request-item:last-child {
+            border-bottom: none;
+        }
+
+        .request-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .request-info {
+            flex: 1;
+        }
+
+        .request-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .request-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+       
+        .friends-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .friend-list-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            transition: all 0.3s;
+        }
+
+        .friend-list-item:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .friend-list-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .friend-list-info {
+            flex: 1;
+        }
+
+        .friend-list-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .friend-list-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .friend-list-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .friend-list-stat {
+            text-align: center;
+        }
+
+        .friend-list-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+       
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+       
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .friends-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .friend-list-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .friend-list-stats {
+                justify-content: center;
+            }
+            
+            .friend-list-actions {
+                margin-top: 1rem;
+            }
+        }
+
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-gray);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-gray);
+            opacity: 0.5;
+        }
+
+       
+        .streak-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+     
+        .common-friends {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .common-friend-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        
+        .friend-category {
+            margin-bottom: 2rem;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .category-count {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="dashboard-container">
+       
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <span class="logo-text">Friend`S</span>
+            </div>
+
+            
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-info">
+                    <h3 id="userName">@usuario</h3>
+                    <p id="userReputation">Reputación: 50</p>
+                </div>
+            </div>
+
+         
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="streaks.html" class="nav-link">
+                        <i class="fas fa-fire"></i>
+                        <span>Mis Rachas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="friends.html" class="nav-link active">
+                        <i class="fas fa-users"></i>
+                        <span>Amigos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="chat.html" class="nav-link">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="qp.html" class="nav-link">
+                        <i class="fas fa-star"></i>
+                        <span>Sistema QP</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="rewards.html" class="nav-link">
+                        <i class="fas fa-gift"></i>
+                        <span>Recompensas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
+                    </a>
+                </li>
+            </ul>
+
+           
+            <div class="sidebar-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Amigos Total</span>
+                    <span class="stat-value" id="sidebarFriends">8</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">En Línea</span>
+                    <span class="stat-value" id="sidebarOnline">3</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Solicitudes</span>
+                    <span class="stat-value" id="sidebarRequests">2</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rachas Activas</span>
+                    <span class="stat-value" id="sidebarStreaks">3</span>
+                </div>
+            </div>
+
+           
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 2rem;" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Cerrar Sesión
+            </button>
+        </aside>
+
+        
+        <main class="main-content">
+           
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1>Amigos</h1>
+                    <p>Gestiona tus conexiones y encuentra nuevos amigos</p>
+                </div>
+                
+                <div class="top-actions">
+                    <button class="btn btn-primary" id="findFriendsBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Encontrar Amigos
+                    </button>
+                    
+                    <div class="notifications">
+                        <button class="btn btn-secondary" id="notificationsBtn">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <span class="notification-badge" id="notificationCount">2</span>
+                    </div>
+                    
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            
+            <div class="friends-tabs">
+                <button class="tab-btn active" data-tab="all-friends">
+                    <i class="fas fa-users"></i>
+                    Todos los Amigos
+                </button>
+                <button class="tab-btn" data-tab="online-friends">
+                    <i class="fas fa-circle"></i>
+                    En Línea
+                    <span class="badge" id="onlineCount">3</span>
+                </button>
+                <button class="tab-btn" data-tab="requests">
+                    <i class="fas fa-user-clock"></i>
+                    Solicitudes
+                    <span class="badge" id="requestsCount">2</span>
+                </button>
+                <button class="tab-btn" data-tab="recommendations">
+                    <i class="fas fa-user-friends"></i>
+                    Recomendados
+                </button>
+            </div>
+
+            
+            <div class="search-container fade-in">
+                <div class="search-box">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Buscar amigos por nombre o Hive ID...">
+                    <button class="btn btn-primary" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                        Buscar
+                    </button>
+                </div>
+                
+                <div class="search-filters">
+                    <span class="filter-tag active" data-filter="all">Todos</span>
+                    <span class="filter-tag" data-filter="online">En línea</span>
+                    <span class="filter-tag" data-filter="streak">Con racha activa</span>
+                    <span class="filter-tag" data-filter="recent">Recientes</span>
+                    <span class="filter-tag" data-filter="mutual">Amigos en común</span>
+                </div>
+            </div>
+
+           
+            <div class="tab-content active" id="all-friends">
+            
+                <div class="friend-category">
+                    <div class="category-header">
+                        <h3 class="category-title">Amigos Activos</h3>
+                        <span class="category-count" id="activeCount">4 amigos</span>
+                    </div>
+                    
+                    <div class="friends-grid" id="activeFriendsGrid">
+                        
+                        <div class="friend-card fade-in">
+                            <div class="streak-indicator">
+                                <i class="fas fa-fire"></i> 8 días
+                            </div>
+                            <div class="friend-avatar">C</div>
+                            <div class="friend-info">
+                                <h4>@carlos_dev</h4>
+                                <p>Web3 Developer</p>
+                                <span class="friend-status status-online">
+                                    <i class="fas fa-circle"></i>
+                                    Online
+                                </span>
+                            </div>
+                            <div class="friend-stats">
+                                <div class="stat">
+                                    <div class="stat-value">15</div>
+                                    <div class="stat-label">Días</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">5.2</div>
+                                    <div class="stat-label">HIVE</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">85</div>
+                                    <div class="stat-label">QP</div>
+                                </div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary btn-sm" onclick="startChat('@carlos_dev')">
+                                    <i class="fas fa-comment"></i>
+                                    Chatear
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewProfile('@carlos_dev')">
+                                    <i class="fas fa-eye"></i>
+                                    Ver
+                                </button>
+                            </div>
+                        </div>
+
+                     
+                        <div class="friend-card fade-in" style="animation-delay: 0.1s;">
+                            <div class="streak-indicator">
+                                <i class="fas fa-fire"></i> 15 días
+                            </div>
+                            <div class="friend-avatar">L</div>
+                            <div class="friend-info">
+                                <h4>@laura_music</h4>
+                                <p>Music Producer</p>
+                                <span class="friend-status status-active">
+                                    <i class="fas fa-fire"></i>
+                                    Activo
+                                </span>
+                            </div>
+                            <div class="friend-stats">
+                                <div class="stat">
+                                    <div class="stat-value">25</div>
+                                    <div class="stat-label">Días</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">8.5</div>
+                                    <div class="stat-label">HIVE</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">120</div>
+                                    <div class="stat-label">QP</div>
+                                </div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary btn-sm" onclick="startChat('@laura_music')">
+                                    <i class="fas fa-comment"></i>
+                                    Chatear
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewProfile('@laura_music')">
+                                    <i class="fas fa-eye"></i>
+                                    Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="friend-category">
+                    <div class="category-header">
+                        <h3 class="category-title">Amigos Recientes</h3>
+                        <span class="category-count" id="recentCount">4 amigos</span>
+                    </div>
+                    
+                    <div class="friends-grid" id="recentFriendsGrid">
+                       
+                        <div class="friend-card fade-in" style="animation-delay: 0.2s;">
+                            <div class="friend-avatar">R</div>
+                            <div class="friend-info">
+                                <h4>@roberto_gamer</h4>
+                                <p>Gaming Squad</p>
+                                <span class="friend-status status-online">
+                                    <i class="fas fa-circle"></i>
+                                    Online
+                                </span>
+                                <div class="common-friends">
+                                    <span style="color: var(--text-gray); font-size: 0.8rem;">Amigos en común:</span>
+                                    <div class="common-friend-avatar">C</div>
+                                    <div class="common-friend-avatar">L</div>
+                                    <div class="common-friend-avatar" style="background: var(--gradient-danger);">+2</div>
+                                </div>
+                            </div>
+                            <div class="friend-stats">
+                                <div class="stat">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">Días</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">0.5</div>
+                                    <div class="stat-label">HIVE</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">45</div>
+                                    <div class="stat-label">QP</div>
+                                </div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary btn-sm" onclick="startChat('@roberto_gamer')">
+                                    <i class="fas fa-comment"></i>
+                                    Chatear
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewProfile('@roberto_gamer')">
+                                    <i class="fas fa-eye"></i>
+                                    Ver
+                                </button>
+                            </div>
+                        </div>
+
+                        
+                        <div class="friend-card fade-in" style="animation-delay: 0.3s;">
+                            <div class="friend-avatar">S</div>
+                            <div class="friend-info">
+                                <h4>@sofia_web3</h4>
+                                <p>Blockchain Expert</p>
+                                <span class="friend-status status-offline">
+                                    <i class="fas fa-circle"></i>
+                                    Offline
+                                </span>
+                                <div class="common-friends">
+                                    <span style="color: var(--text-gray); font-size: 0.8rem;">Amigos en común:</span>
+                                    <div class="common-friend-avatar">C</div>
+                                    <div class="common-friend-avatar" style="background: var(--gradient-accent);">+1</div>
+                                </div>
+                            </div>
+                            <div class="friend-stats">
+                                <div class="stat">
+                                    <div class="stat-value">1</div>
+                                    <div class="stat-label">Día</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">0.0</div>
+                                    <div class="stat-label">HIVE</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">25</div>
+                                    <div class="stat-label">QP</div>
+                                </div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary btn-sm" onclick="startChat('@sofia_web3')">
+                                    <i class="fas fa-comment"></i>
+                                    Chatear
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewProfile('@sofia_web3')">
+                                    <i class="fas fa-eye"></i>
+                                    Ver
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="friends-section">
+                    <div class="section-header">
+                        <h2>Lista de Amigos</h2>
+                        <button class="btn btn-secondary" id="toggleViewBtn">
+                            <i class="fas fa-th"></i>
+                            Cambiar Vista
+                        </button>
+                    </div>
+                    
+                    <div class="friends-list" id="friendsListView">
+                       
+                        <div class="friend-list-item fade-in">
+                            <div class="friend-list-avatar">J</div>
+                            <div class="friend-list-info">
+                                <h4>@juanperez</h4>
+                                <p>Última vez: Hoy • Gaming Squad • Racha activa: 8 días</p>
+                            </div>
+                            <div class="friend-list-stats">
+                                <div class="friend-list-stat">
+                                    <div class="stat-value">8</div>
+                                    <div class="stat-label">Días</div>
+                                </div>
+                                <div class="friend-list-stat">
+                                    <div class="stat-value">1.5</div>
+                                    <div class="stat-label">HIVE</div>
+                                </div>
+                                <div class="friend-list-stat">
+                                    <div class="stat-value">65</div>
+                                    <div class="stat-label">QP</div>
+                                </div>
+                            </div>
+                            <div class="friend-list-actions">
+                                <button class="btn btn-primary btn-sm" onclick="startChat('@juanperez')">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                                <button class="btn btn-success btn-sm" onclick="startStreak('@juanperez')">
+                                    <i class="fas fa-fire"></i>
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewProfile('@juanperez')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                       
+                        <div class="friend-list-item fade-in" style="animation-delay: 0.1s;">
+                            <div class="friend-list-avatar">M</div>
+                            <div class="friend-list-info">
+                                <h4>@maria_tech</h4>
+                                <p>Última vez: 2h • Study Buddies • Racha activa: 15 días</p>
+                            </div>
+                            <div class="friend-list-stats">
+                                <div class="friend-list-stat">
+                                    <div class="stat-value">15</div>
+                                    <div class="stat-label">Días</div>
+                                </div>
+                                <div class="friend-list-stat">
+                                    <div class="stat-value">5.0</div>
+                                    <div class="stat-label">HIVE</div>
+                                </div>
+                                <div class="friend-list-stat">
+                                    <div class="stat-value">110</div>
+                                    <div class="stat-label">QP</div>
+                                </div>
+                            </div>
+                            <div class="friend-list-actions">
+                                <button class="btn btn-primary btn-sm" onclick="startChat('@maria_tech')">
+                                    <i class="fas fa-comment"></i>
+                                </button>
+                                <button class="btn btn-success btn-sm" onclick="startStreak('@maria_tech')">
+                                    <i class="fas fa-fire"></i>
+                                </button>
+                                <button class="btn btn-secondary btn-sm" onclick="viewProfile('@maria_tech')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="tab-content" id="online-friends">
+                <div class="friends-section">
+                    <div class="section-header">
+                        <h2>Amigos en Línea</h2>
+                        <p id="onlineFriendsCount">3 amigos conectados</p>
+                    </div>
+                    
+                    <div class="friends-grid" id="onlineFriendsGrid">
+                       
+                        <div class="friend-card fade-in">
+                            <div class="friend-avatar">C</div>
+                            <div class="friend-info">
+                                <h4>@carlos_dev</h4>
+                                <p>Activo ahora • Web3 Developer</p>
+                                <span class="friend-status status-online">
+                                    <i class="fas fa-circle"></i>
+                                    Online - Chateando
+                                </span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary" onclick="startChat('@carlos_dev')">
+                                    <i class="fas fa-comment"></i>
+                                    Unirse al Chat
+                                </button>
+                            </div>
+                        </div>
+
+                        
+                        <div class="friend-card fade-in" style="animation-delay: 0.1s;">
+                            <div class="friend-avatar">L</div>
+                            <div class="friend-info">
+                                <h4>@laura_music</h4>
+                                <p>Activo hace 5 min • Music Producer</p>
+                                <span class="friend-status status-active">
+                                    <i class="fas fa-fire"></i>
+                                    Activo - Racha de 25 días
+                                </span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary" onclick="startChat('@laura_music')">
+                                    <i class="fas fa-comment"></i>
+                                    Enviar Mensaje
+                                </button>
+                            </div>
+                        </div>
+
+                       
+                        <div class="friend-card fade-in" style="animation-delay: 0.2s;">
+                            <div class="friend-avatar">R</div>
+                            <div class="friend-info">
+                                <h4>@roberto_gamer</h4>
+                                <p>En juego • Gaming Squad</p>
+                                <span class="friend-status status-online">
+                                    <i class="fas fa-gamepad"></i>
+                                    Jugando - Disponible para chat
+                                </span>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-primary" onclick="startChat('@roberto_gamer')">
+                                    <i class="fas fa-comment"></i>
+                                    Invitar a Jugar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div class="tab-content" id="requests">
+                <div class="friends-section">
+                    <div class="section-header">
+                        <h2>Solicitudes de Amistad</h2>
+                        <p id="requestsTotalCount">2 solicitudes pendientes</p>
+                    </div>
+                    
+                    <div class="requests-container fade-in">
+                        
+                        <div class="request-item">
+                            <div class="request-avatar">A</div>
+                            <div class="request-info">
+                                <h4>@alejandro_art</h4>
+                                <p>Art Community • NFT Creator • 5 amigos en común</p>
+                                <div style="font-size: 0.85rem; color: var(--text-gray);">
+                                    <i class="fas fa-clock"></i> Hace 2 horas
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <button class="btn btn-success" onclick="acceptRequest('@alejandro_art')">
+                                    <i class="fas fa-check"></i>
+                                    Aceptar
+                                </button>
+                                <button class="btn btn-danger" onclick="rejectRequest('@alejandro_art')">
+                                    <i class="fas fa-times"></i>
+                                    Rechazar
+                                </button>
+                            </div>
+                        </div>
+
+                       
+                        <div class="request-item">
+                            <div class="request-avatar">D</div>
+                            <div class="request-info">
+                                <h4>@diana_ai</h4>
+                                <p>AI Researcher • Machine Learning • 3 amigos en común</p>
+                                <div style="font-size: 0.85rem; color: var(--text-gray);">
+                                    <i class="fas fa-clock"></i> Hace 1 día
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <button class="btn btn-success" onclick="acceptRequest('@diana_ai')">
+                                    <i class="fas fa-check"></i>
+                                    Aceptar
+                                </button>
+                                <button class="btn btn-danger" onclick="rejectRequest('@diana_ai')">
+                                    <i class="fas fa-times"></i>
+                                    Rechazar
+                                </button>
+                            </div>
+                        </div>
+
+                       
+                        <div class="section-header" style="margin-top: 2rem;">
+                            <h3>Solicitudes Enviadas</h3>
+                        </div>
+                        
+                        <div class="request-item">
+                            <div class="request-avatar">T</div>
+                            <div class="request-info">
+                                <h4>@tomas_web3</h4>
+                                <p>DeFi Expert • Smart Contracts</p>
+                                <div style="font-size: 0.85rem; color: var(--warning);">
+                                    <i class="fas fa-clock"></i> Pendiente • Enviada hace 3 días
+                                </div>
+                            </div>
+                            <div class="request-actions">
+                                <button class="btn btn-secondary" onclick="cancelRequest('@tomas_web3')">
+                                    <i class="fas fa-times"></i>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="tab-content" id="recommendations">
+                <div class="recommendations-container fade-in">
+                    <div class="section-header">
+                        <h2>Amigos Recomendados</h2>
+                        <p>Basado en tus intereses y amigos en común</p>
+                    </div>
+                    
+                    <div class="search-box" style="margin-bottom: 2rem;">
+                        <input type="text" class="search-input" id="discoverInput" placeholder="Descubre amigos por intereses...">
+                        <button class="btn btn-primary" id="discoverBtn">
+                            <i class="fas fa-search"></i>
+                            Descubrir
+                        </button>
+                    </div>
+                    
+                    <div class="recommendations-grid" id="recommendationsGrid">
+                       
+                        <div class="recommendation-card">
+                            <div class="friend-avatar" style="width: 60px; height: 60px; margin-bottom: 0.75rem;">P</div>
+                            <h4>@pablo_crypto</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Crypto Trader</p>
+                            <div class="common-friends" style="justify-content: center;">
+                                <span style="font-size: 0.75rem; color: var(--text-gray);">4 amigos en común</span>
+                            </div>
+                            <div style="margin: 0.75rem 0;">
+                                <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
+                                    <i class="fas fa-fire"></i> Racha activa
+                                </span>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="sendRequest('@pablo_crypto')" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+
+                        <
+                        <div class="recommendation-card">
+                            <div class="friend-avatar" style="width: 60px; height: 60px; margin-bottom: 0.75rem;">V</div>
+                            <h4>@valeria_design</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">UI/UX Designer</p>
+                            <div class="common-friends" style="justify-content: center;">
+                                <span style="font-size: 0.75rem; color: var(--text-gray);">2 amigos en común</span>
+                            </div>
+                            <div style="margin: 0.75rem 0;">
+                                <span class="badge" style="background: rgba(99, 102, 241, 0.2); color: var(--primary); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
+                                    <i class="fas fa-star"></i> Alta reputación
+                                </span>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="sendRequest('@valeria_design')" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+
+                        
+                        <div class="recommendation-card">
+                            <div class="friend-avatar" style="width: 60px; height: 60px; margin-bottom: 0.75rem;">G</div>
+                            <h4>@gabriel_gaming</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Pro Gamer</p>
+                            <div class="common-friends" style="justify-content: center;">
+                                <span style="font-size: 0.75rem; color: var(--text-gray);">3 amigos en común</span>
+                            </div>
+                            <div style="margin: 0.75rem 0;">
+                                <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
+                                    <i class="fas fa-gamepad"></i> Gaming Squad
+                                </span>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="sendRequest('@gabriel_gaming')" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+
+                       
+                        <div class="recommendation-card">
+                            <div class="friend-avatar" style="width: 60px; height: 60px; margin-bottom: 0.75rem;">N</div>
+                            <h4>@natalia_tech</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Tech Lead</p>
+                            <div class="common-friends" style="justify-content: center;">
+                                <span style="font-size: 0.75rem; color: var(--text-gray);">5 amigos en común</span>
+                            </div>
+                            <div style="margin: 0.75rem 0;">
+                                <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.75rem;">
+                                    <i class="fas fa-bolt"></i> Estrella en ascenso
+                                </span>
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="sendRequest('@natalia_tech')" style="width: 100%;">
+                                <i class="fas fa-user-plus"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+
+                   
+                    <div class="section-header" style="margin-top: 2rem;">
+                        <h3>Buscar por Intereses</h3>
+                    </div>
+                    
+                    <div class="search-filters" style="justify-content: center;">
+                        <span class="filter-tag" data-interest="gaming">
+                            <i class="fas fa-gamepad"></i> Gaming
+                        </span>
+                        <span class="filter-tag" data-interest="web3">
+                            <i class="fas fa-link"></i> Web3
+                        </span>
+                        <span class="filter-tag" data-interest="art">
+                            <i class="fas fa-palette"></i> Arte
+                        </span>
+                        <span class="filter-tag" data-interest="music">
+                            <i class="fas fa-music"></i> Música
+                        </span>
+                        <span class="filter-tag" data-interest="tech">
+                            <i class="fas fa-code"></i> Tecnología
+                        </span>
+                        <span class="filter-tag" data-interest="crypto">
+                            <i class="fas fa-coins"></i> Crypto
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="friends-section" style="margin-top: 3rem;">
+                <div class="section-header">
+                    <h2>Estadísticas de Amigos</h2>
+                </div>
+                
+                <div class="friends-grid">
+                    <div class="friend-card" style="text-align: left;">
+                        <h4 style="margin-bottom: 1rem;">
+                            <i class="fas fa-chart-line" style="color: var(--accent);"></i>
+                            Actividad Social
+                        </h4>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: var(--text-gray);">Mensajes/día</span>
+                                <span style="font-weight: 600;">42</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="color: var(--text-gray);">Rachas activas</span>
+                                <span style="font-weight: 600;">3/8</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: 38%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-card" style="text-align: left;">
+                        <h4 style="margin-bottom: 1rem;">
+                            <i class="fas fa-trophy" style="color: var(--warning);"></i>
+                            Logros Sociales
+                        </h4>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <div style="width: 30px; height: 30px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-users" style="color: var(--accent); font-size: 0.875rem;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600;">Conector Social</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">8+ amigos agregados</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 30px; height: 30px; border-radius: 50%; background: rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-fire" style="color: var(--primary); font-size: 0.875rem;"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600;">Maestro de Rachas</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">15+ días consecutivos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="friend-card" style="text-align: left;">
+                        <h4 style="margin-bottom: 1rem;">
+                            <i class="fas fa-bullseye" style="color: var(--danger);"></i>
+                            Próximas Metas
+                        </h4>
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                                <div>
+                                    <div style="font-weight: 600;">10 Amigos</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">+2 HIVE de recompensa</div>
+                                </div>
+                                <span style="background: var(--gradient-primary); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">
+                                    80%
+                                </span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-weight: 600;">5 Rachas Activas</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-gray);">+5 HIVE de recompensa</div>
+                                </div>
+                                <span style="background: rgba(16, 185, 129, 0.2); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">
+                                    60%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="scripts/hive-auth.js"></script>
+    <script>
+        
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const notificationCount = document.getElementById('notificationCount');
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        const findFriendsBtn = document.getElementById('findFriendsBtn');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const discoverInput = document.getElementById('discoverInput');
+        const discoverBtn = document.getElementById('discoverBtn');
+        const toggleViewBtn = document.getElementById('toggleViewBtn');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const filterTags = document.querySelectorAll('.filter-tag');
+        const interestTags = document.querySelectorAll('[data-interest]');
+        
+      
+        const sidebarFriends = document.getElementById('sidebarFriends');
+        const sidebarOnline = document.getElementById('sidebarOnline');
+        const sidebarRequests = document.getElementById('sidebarRequests');
+        const sidebarStreaks = document.getElementById('sidebarStreaks');
+        const onlineCount = document.getElementById('onlineCount');
+        const requestsCount = document.getElementById('requestsCount');
+        const activeCount = document.getElementById('activeCount');
+        const recentCount = document.getElementById('recentCount');
+        const onlineFriendsCount = document.getElementById('onlineFriendsCount');
+        const requestsTotalCount = document.getElementById('requestsTotalCount');
+        
+       
+        let currentUser = null;
+        let friendsData = {
+            totalFriends: 8,
+            onlineFriends: 3,
+            pendingRequests: 2,
+            activeStreaks: 3,
+            friendsList: [
+                { id: 1, username: '@carlos_dev', name: 'Carlos', status: 'online', streak: 15, hive: 5.2, qp: 85, lastSeen: 'Hoy', category: 'active' },
+                { id: 2, username: '@laura_music', name: 'Laura', status: 'active', streak: 25, hive: 8.5, qp: 120, lastSeen: '2h', category: 'active' },
+                { id: 3, username: '@roberto_gamer', name: 'Roberto', status: 'online', streak: 3, hive: 0.5, qp: 45, lastSeen: 'Ayer', category: 'recent' },
+                { id: 4, username: '@sofia_web3', name: 'Sofía', status: 'offline', streak: 1, hive: 0.0, qp: 25, lastSeen: '5h', category: 'recent' },
+                { id: 5, username: '@juanperez', name: 'Juan', status: 'online', streak: 8, hive: 1.5, qp: 65, lastSeen: 'Hoy', category: 'all' },
+                { id: 6, username: '@maria_tech', name: 'María', status: 'active', streak: 15, hive: 5.0, qp: 110, lastSeen: '2h', category: 'all' }
+            ],
+            pendingRequestsList: [
+                { id: 1, username: '@alejandro_art', name: 'Alejandro', sentAt: '2 horas', mutualFriends: 5 },
+                { id: 2, username: '@diana_ai', name: 'Diana', sentAt: '1 día', mutualFriends: 3 }
+            ],
+            sentRequestsList: [
+                { id: 1, username: '@tomas_web3', name: 'Tomás', sentAt: '3 días' }
+            ],
+            recommendations: [
+                { id: 1, username: '@pablo_crypto', name: 'Pablo', mutualFriends: 4, interest: 'crypto', hasStreak: true },
+                { id: 2, username: '@valeria_design', name: 'Valeria', mutualFriends: 2, interest: 'art', hasReputation: true },
+                { id: 3, username: '@gabriel_gaming', name: 'Gabriel', mutualFriends: 3, interest: 'gaming', isGamer: true },
+                { id: 4, username: '@natalia_tech', name: 'Natalia', mutualFriends: 5, interest: 'tech', isRising: true }
+            ]
+        };
+        
+        let isGridView = true;
+        
+        
+        function initFriendsPage() {
+            checkLoginStatus();
+            loadUserData();
+            updateStats();
+            setupEventListeners();
+            setupTabs();
+            animateCards();
+            
+            console.log('👥 Página de amigos inicializada');
+        }
+        
+        function checkLoginStatus() {
+            if (window.hiveAuth && hiveAuth.isAuthenticated()) {
+                currentUser = hiveAuth.getCurrentUser();
+            } else {
+                const userData = localStorage.getItem('friend_s_user');
+                if (userData) {
+                    currentUser = JSON.parse(userData);
+                } else {
+                    window.location.href = 'login.html';
+                    return;
+                }
+            }
+            
+            if (!currentUser) {
+                window.location.href = 'login.html';
+            }
+        }
+        
+       
+        function loadUserData() {
+            if (currentUser) {
+                const username = currentUser.username || currentUser.profile?.name || 'usuario';
+                const avatarText = username.charAt(0).toUpperCase();
+                document.getElementById('userAvatar').textContent = avatarText;
+                document.getElementById('userName').textContent = '@' + username;
+                
+                const reputation = currentUser.profile?.reputation || currentUser.account?.reputation || 50;
+                document.getElementById('userReputation').textContent = 'Reputación: ' + reputation;
+            }
+        }
+        
+        
+        function updateStats() {
+            sidebarFriends.textContent = friendsData.totalFriends;
+            sidebarOnline.textContent = friendsData.onlineFriends;
+            sidebarRequests.textContent = friendsData.pendingRequests;
+            sidebarStreaks.textContent = friendsData.activeStreaks;
+            
+            onlineCount.textContent = friendsData.onlineFriends;
+            requestsCount.textContent = friendsData.pendingRequests;
+            
+          
+            const activeFriends = friendsData.friendsList.filter(friend => friend.category === 'active');
+            activeCount.textContent = `${activeFriends.length} amigos`;
+            
+            
+            const recentFriends = friendsData.friendsList.filter(friend => friend.category === 'recent');
+            recentCount.textContent = `${recentFriends.length} amigos`;
+            
+            onlineFriendsCount.textContent = `${friendsData.onlineFriends} amigos conectados`;
+            requestsTotalCount.textContent = `${friendsData.pendingRequests} solicitudes pendientes`;
+        }
+        
+        
+        function setupEventListeners() {
+            
+            mobileMenuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+            
+          
+            logoutBtn.addEventListener('click', () => {
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    if (window.hiveAuth) {
+                        hiveAuth.logout();
+                    }
+                    
+                    localStorage.removeItem('friend_s_user');
+                    window.location.href = 'login.html';
+                }
+            });
+            
+           
+            findFriendsBtn.addEventListener('click', () => {
+                
+                switchTab('recommendations');
+            });
+            
+           
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+          
+            discoverBtn.addEventListener('click', performDiscover);
+            discoverInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performDiscover();
+                }
+            });
+            
+           
+            toggleViewBtn.addEventListener('click', toggleView);
+            
+            
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    filterTags.forEach(t => t.classList.remove('active'));
+                    tag.classList.add('active');
+                    
+                    const filter = tag.getAttribute('data-filter');
+                    filterFriends(filter);
+                });
+            });
+            
+          
+            interestTags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    interestTags.forEach(t => t.classList.remove('active'));
+                    tag.classList.add('active');
+                    
+                    const interest = tag.getAttribute('data-interest');
+                    filterByInterest(interest);
+                });
+            });
+            
+            
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1200) {
+                    if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        }
+        
+       
+        function setupTabs() {
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+        }
+        
+       
+        function switchTab(tabId) {
+      
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active');
+                }
+            });
+            
+           
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === tabId) {
+                    content.classList.add('active');
+                }
+            });
+            
+          
+            if (tabId === 'recommendations') {
+                animateRecommendations();
+            }
+        }
+        
+        
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (!query) {
+                showToast('Por favor, ingresa un nombre para buscar');
+                return;
+            }
+            
+           
+            const results = friendsData.friendsList.filter(friend => 
+                friend.username.toLowerCase().includes(query) || 
+                friend.name.toLowerCase().includes(query)
+            );
+            
+            if (results.length > 0) {
+                showToast(`Encontrados ${results.length} amigos`);
+                
+            } else {
+                showToast('No se encontraron amigos con ese nombre');
+            
+                switchTab('recommendations');
+            }
+            
+        
+            searchInput.value = '';
+        }
+        
+       
+        function performDiscover() {
+            const query = discoverInput.value.trim().toLowerCase();
+            
+            if (!query) {
+                showToast('Por favor, ingresa un interés para buscar');
+                return;
+            }
+            
+            
+            const interests = ['gaming', 'web3', 'art', 'music', 'tech', 'crypto'];
+            if (interests.includes(query)) {
+                showToast(`Mostrando amigos interesados en: ${query}`);
+                filterByInterest(query);
+            } else {
+                showToast(`Buscando amigos con interés: ${query}...`);
+               
+                setTimeout(() => {
+                    showToast('No se encontraron amigos con ese interés específico');
+                }, 1500);
+            }
+            
+            
+            discoverInput.value = '';
+        }
+        
+        
+        function filterFriends(filter) {
+            let filteredFriends = [];
+            
+            switch(filter) {
+                case 'online':
+                    filteredFriends = friendsData.friendsList.filter(friend => 
+                        friend.status === 'online' || friend.status === 'active'
+                    );
+                    break;
+                case 'streak':
+                    filteredFriends = friendsData.friendsList.filter(friend => 
+                        friend.streak >= 3
+                    );
+                    break;
+                case 'recent':
+                    filteredFriends = friendsData.friendsList.filter(friend => 
+                        friend.lastSeen === 'Hoy' || friend.lastSeen === '2h' || friend.lastSeen === 'Ayer'
+                    );
+                    break;
+                case 'mutual':
+                    
+                    filteredFriends = friendsData.friendsList.slice(0, 3);
+                    break;
+                default:
+                    filteredFriends = friendsData.friendsList;
+            }
+            
+            showToast(`Mostrando ${filteredFriends.length} amigos`);
+        }
+        
+     
+        function filterByInterest(interest) {
+            const filtered = friendsData.recommendations.filter(rec => 
+                rec.interest === interest
+            );
+            
+            if (filtered.length > 0) {
+                showToast(`Encontrados ${filtered.length} amigos interesados en ${interest}`);
+            } else {
+                showToast(`No hay recomendaciones para ${interest} en este momento`);
+            }
+        }
+        
+      
+        function toggleView() {
+            isGridView = !isGridView;
+            
+            const friendsGrid = document.getElementById('activeFriendsGrid');
+            const friendsList = document.getElementById('friendsListView');
+            
+            if (isGridView) {
+                friendsGrid.style.display = 'grid';
+                friendsList.style.display = 'none';
+                toggleViewBtn.innerHTML = '<i class="fas fa-list"></i> Cambiar Vista';
+                showToast('Vista de cuadrícula activada');
+            } else {
+                friendsGrid.style.display = 'none';
+                friendsList.style.display = 'flex';
+                toggleViewBtn.innerHTML = '<i class="fas fa-th"></i> Cambiar Vista';
+                showToast('Vista de lista activada');
+            }
+        }
+        
+      
+        function startChat(username) {
+            showToast(`Iniciando chat con ${username}`);
+            
+            setTimeout(() => {
+                window.location.href = `chat.html?user=${encodeURIComponent(username)}`;
+            }, 500);
+        }
+        
+        function viewProfile(username) {
+            showToast(`Viendo perfil de ${username}`);
+            
+        }
+        
+        function startStreak(username) {
+            showToast(`Iniciando racha con ${username}`);
+            
+            setTimeout(() => {
+                window.location.href = `streaks.html?start=${encodeURIComponent(username)}`;
+            }, 500);
+        }
+        
+        function sendRequest(username) {
+            if (confirm(`¿Enviar solicitud de amistad a ${username}?`)) {
+                showToast(`Solicitud enviada a ${username}`);
+                
+                
+                friendsData.sentRequestsList.push({
+                    id: friendsData.sentRequestsList.length + 1,
+                    username: username,
+                    name: username.replace('@', ''),
+                    sentAt: 'Ahora'
+                });
+                
+                
+                updateStats();
+                
+              
+                setTimeout(() => {
+                    showToast(`${username} ha recibido tu solicitud`);
+                }, 1000);
+            }
+        }
+        
+        function acceptRequest(username) {
+            if (confirm(`¿Aceptar solicitud de ${username}?`)) {
+                showToast(`Solicitud de ${username} aceptada`);
+                
+                
+                friendsData.pendingRequestsList = friendsData.pendingRequestsList.filter(
+                    req => req.username !== username
+                );
+                
+              
+                friendsData.friendsList.push({
+                    id: friendsData.friendsList.length + 1,
+                    username: username,
+                    name: username.replace('@', ''),
+                    status: 'offline',
+                    streak: 0,
+                    hive: 0.0,
+                    qp: 0,
+                    lastSeen: 'Ahora',
+                    category: 'recent'
+                });
+                
+             
+                friendsData.totalFriends++;
+                friendsData.pendingRequests--;
+                
+                updateStats();
+                
+            
+                setTimeout(() => {
+                    switchTab('all-friends');
+                }, 1000);
+            }
+        }
+        
+        function rejectRequest(username) {
+            if (confirm(`¿Rechazar solicitud de ${username}?`)) {
+                showToast(`Solicitud de ${username} rechazada`);
+                
+            
+                friendsData.pendingRequestsList = friendsData.pendingRequestsList.filter(
+                    req => req.username !== username
+                );
+                
+                
+                friendsData.pendingRequests--;
+                
+                updateStats();
+            }
+        }
+        
+        function cancelRequest(username) {
+            if (confirm(`¿Cancelar solicitud a ${username}?`)) {
+                showToast(`Solicitud a ${username} cancelada`);
+                
+             
+                friendsData.sentRequestsList = friendsData.sentRequestsList.filter(
+                    req => req.username !== username
+                );
+                
+                updateStats();
+            }
+        }
+        
+        
+        function animateCards() {
+            const cards = document.querySelectorAll('.friend-card, .recommendation-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+        }
+        
+        function animateRecommendations() {
+            const recommendations = document.querySelectorAll('.recommendation-card');
+            recommendations.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
+            });
+        }
+        
+       
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: var(--card-bg);
+                border: 1px solid var(--card-border);
+                border-radius: var(--radius-md);
+                padding: 1rem 1.5rem;
+                color: var(--text-light);
+                box-shadow: var(--shadow-lg);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            `;
+            
+            toast.innerHTML = `
+                <i class="fas fa-check-circle" style="color: var(--accent);"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+            
+            if (!document.getElementById('toastAnimations')) {
+                const style = document.createElement('style');
+                style.id = 'toastAnimations';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        
+        document.addEventListener('DOMContentLoaded', initFriendsPage);
+        
+        
+        setInterval(() => {
+            
+            const randomFriend = friendsData.friendsList[Math.floor(Math.random() * friendsData.friendsList.length)];
+            if (randomFriend) {
+                const statuses = ['online', 'offline', 'active'];
+                randomFriend.status = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                
+                friendsData.onlineFriends = friendsData.friendsList.filter(
+                    friend => friend.status === 'online' || friend.status === 'active'
+                ).length;
+                
+                updateStats();
+            }
+        }, 30000);
+        
+        
+        setInterval(() => {
+            if (Math.random() > 0.8) { // 20% chance every 30 seconds
+                const newUsers = ['@alex_crypto', '@beatriz_ai', '@carlos_gamer', '@diana_dev'];
+                const newUser = newUsers[Math.floor(Math.random() * newUsers.length)];
+                
+                if (!friendsData.pendingRequestsList.some(req => req.username === newUser)) {
+                    friendsData.pendingRequestsList.push({
+                        id: friendsData.pendingRequestsList.length + 1,
+                        username: newUser,
+                        name: newUser.replace('@', ''),
+                        sentAt: 'Ahora',
+                        mutualFriends: Math.floor(Math.random() * 5) + 1
+                    });
+                    
+                    friendsData.pendingRequests++;
+                    updateStats();
+                    
+                  
+                    const currentCount = parseInt(notificationCount.textContent);
+                    notificationCount.textContent = currentCount + 1;
+                    
+                    showToast(`Nueva solicitud de ${newUser}`);
+                }
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

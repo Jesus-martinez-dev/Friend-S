@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Friend`S</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables consistentes con index.html */
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-light));
+            --gradient-danger: linear-gradient(135deg, var(--danger), #f97316);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 30%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Main Login Content */
+        .login-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-wrapper {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .login-info {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .login-card {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+        }
+
+        .login-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            color: var(--text-gray);
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-gray);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .checkbox-group a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        /* Auth Options */
+        .auth-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .auth-btn.hive {
+            background: linear-gradient(135deg, #ff0080, #ff8c00);
+            color: white;
+            border: none;
+        }
+
+        .auth-btn.hive:hover {
+            background: linear-gradient(135deg, #e60073, #e67e00);
+        }
+
+        .auth-btn.keychain {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+        }
+
+        .auth-btn.keychain:hover {
+            background: linear-gradient(135deg, #5c4fcf, #928bfe);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: var(--text-gray);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--card-border);
+        }
+
+        .divider span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            padding: 3rem 0 2rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-gray);
+        }
+
+        .credit {
+            display: inline-block;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-left: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .login-wrapper {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .login-info,
+            .login-card {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .login-card {
+                padding: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading and Success States */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--card-border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        /* Error States */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .form-input.error {
+            border-color: var(--danger);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-light);
+        }
+
+        /* QR Code */
+        .qr-container {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--radius-md);
+            margin: 2rem 0;
+        }
+
+        .qr-container canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .warning-banner i {
+            font-size: 1.5rem;
+        }
+
+        .warning-banner p {
+            margin: 0;
+            color: white;
+        }
+
+        /* Manual Login Form */
+        .manual-form {
+            display: none;
+        }
+
+        .manual-form.active {
+            display: block;
+        }
+
+        .back-to-options {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .back-to-options.active {
+            display: block;
+        }
+
+        /* Account Info Preview */
+        .account-preview {
+            display: none;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .account-preview.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .account-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .account-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .account-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .account-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value-small {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label-small {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <span class="logo-text">Friend`S</span>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="index.html#revolution" class="nav-link">La Revolución</a>
+                <a href="index.html#qp-system" class="nav-link">Sistema QP</a>
+                <a href="index.html#streaks" class="nav-link">Rachas</a>
+                <a href="index.html#economy" class="nav-link">Economía</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Login Content -->
+    <main class="login-container">
+        <div class="container login-wrapper">
+            <!-- Left Side - Information -->
+            <div class="login-info">
+                <h1 class="login-title">
+                    Inicia Sesión en Friend`S
+                </h1>
+                <p class="login-subtitle">
+                    Conéctate con tu cuenta existente de Hive y comienza a ganar recompensas por tus interacciones sociales.
+                </p>
+                
+                <div class="warning-banner">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Importante:</strong> Friend`S solo admite usuarios con cuentas existentes en la blockchain de Hive.</p>
+                </div>
+                
+                <ul class="features-list">
+                    <li>
+                        <div class="feature-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div>
+                            <strong>Acceso Seguro</strong> - Usa Hive Keychain para la mejor seguridad
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div>
+                            <strong>Control Total</strong> - Tus claves, tu control. Nunca pedimos tus claves privadas
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <strong>Descentralizado</strong> - Tu sesión se almacena localmente, no en nuestros servidores
+                        </div>
+                    </li>
+                    <li>
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <strong>Inicio Rápido</strong> - Comienza a ganar QP inmediatamente después de iniciar sesión
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">100+</div>
+                        <div class="stat-label">Usuarios Activos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10,000+</div>
+                        <div class="stat-label">HIVE Distribuidos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Rachas Activas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">×3.0</div>
+                        <div class="stat-label">Multiplicador Máximo QP</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Login Form -->
+            <div class="login-card">
+                <h2 style="margin-bottom: 0.5rem; color: var(--text-light);">Iniciar Sesión</h2>
+                <p style="color: var(--text-gray); margin-bottom: 2rem;">
+                    Elige tu método de autenticación preferido
+                </p>
+
+                <!-- Initial Options -->
+                <div class="auth-options" id="initialOptions">
+                    <button class="auth-btn keychain" id="keychainLoginBtn">
+                        <i class="fas fa-wallet"></i>
+                        <div style="text-align: left; flex: 1;">
+                            <div style="font-weight: 700; font-size: 1.1rem;">Hive Keychain (Recomendado)</div>
+                            <div style="font-size: 0.85rem; opacity: 0.9;">Método más seguro y rápido</div>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    
+                    <button class="auth-btn hive" id="manualLoginBtn">
+                        <i class="fab fa-hive"></i>
+                        <div style="text-align: left; flex: 1;">
+                            <div style="font-weight: 700; font-size: 1.1rem;">Inicio Manual</div>
+                            <div style="font-size: 0.85rem; opacity: 0.9;">Con nombre de usuario y clave</div>
+                        </div>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Manual Login Form -->
+                <div class="manual-form" id="manualForm">
+                    <div class="form-group">
+                        <label class="form-label" for="username">Nombre de usuario Hive</label>
+                        <input type="text" id="username" class="form-input" placeholder="ej: tuusuario" autocomplete="username">
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="postingKey">Clave de Publicación (Posting Key)</label>
+                        <input type="password" id="postingKey" class="form-input" placeholder="Tu clave de publicación privada" autocomplete="current-password">
+                        <div class="error-message" id="postingKeyError"></div>
+                        <p style="font-size: 0.85rem; color: var(--text-gray); margin-top: 0.5rem;">
+                            <i class="fas fa-info-circle"></i> Tu clave nunca se envía a nuestros servidores. Solo se usa para verificar tu identidad en la blockchain.
+                        </p>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">
+                            Recordar mi sesión por 7 días
+                        </label>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button class="btn" style="flex: 1; background: transparent; border: 1px solid var(--card-border);" id="backToOptionsBtn">
+                            <i class="fas fa-arrow-left"></i>
+                            Volver
+                        </button>
+                        <button class="btn btn-primary" style="flex: 1;" id="loginManualBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Account Preview -->
+                <div class="account-preview" id="accountPreview">
+                    <div class="account-header">
+                        <div class="account-avatar" id="accountAvatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="account-info">
+                            <h4 id="previewUsername">@usuario</h4>
+                            <p style="color: var(--text-gray); font-size: 0.9rem;" id="previewReputation">Reputación: 50</p>
+                        </div>
+                    </div>
+                    <div class="account-stats">
+                        <div class="stat-item">
+                            <div class="stat-value-small" id="previewHive">0 HIVE</div>
+                            <div class="stat-label-small">Balance</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value-small" id="previewPosts">0</div>
+                            <div class="stat-label-small">Publicaciones</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 1rem; text-align: center;">
+                        <i class="fas fa-check-circle" style="color: var(--accent);"></i>
+                        Cuenta verificada en la blockchain de Hive
+                    </p>
+                </div>
+
+                <!-- Back to Options Link -->
+                <div class="back-to-options" id="backToOptionsLink">
+                    <button class="btn" style="background: transparent; border: 1px solid var(--card-border); width: 100%;" id="backToOptionsLinkBtn">
+                        <i class="fas fa-arrow-left"></i>
+                        Volver a opciones de inicio de sesión
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading" id="loadingState">
+                    <div class="spinner"></div>
+                    <h3 style="margin-bottom: 0.5rem; color: var(--text-light);">Verificando cuenta</h3>
+                    <p style="color: var(--text-gray);">
+                        Estamos verificando tu cuenta en la blockchain de Hive...
+                    </p>
+                </div>
+
+                <!-- Success State -->
+                <div class="success-message" id="successState">
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h2 style="margin-bottom: 0.5rem; color: var(--text-light);">¡Sesión iniciada!</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 2rem;">
+                        Bienvenido de vuelta a Friend`S. Tu sesión ha sido iniciada exitosamente.
+                    </p>
+                    <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-bolt" style="color: var(--accent);"></i>
+                            <strong>¡Bonus de actividad!</strong>
+                        </div>
+                        <p style="color: var(--text-gray); font-size: 0.9rem; margin: 0;">
+                            Tu primera racha comienza hoy. Mantén la actividad para ganar <strong style="color: var(--accent);">bonus de QP</strong>.
+                        </p>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" id="goToDashboardBtn">
+                        <i class="fas fa-rocket"></i>
+                        Ir al Dashboard
+                    </button>
+                </div>
+
+                <!-- No Hive Account Message -->
+                <div class="success-message" id="noAccountState" style="display: none;">
+                    <div class="success-icon" style="background: var(--gradient-primary);">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <h2 style="margin-bottom: 0.5rem; color: var(--text-light);">¿No tienes cuenta en Hive?</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 2rem;">
+                        Friend`S solo admite usuarios con cuentas existentes en la blockchain de Hive.
+                        Puedes crear una cuenta gratuitamente en:
+                    </p>
+                    <a href="https://signup.hive.io/" target="_blank" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">
+                        <i class="fas fa-external-link-alt"></i>
+                        Crear cuenta en Hive
+                    </a>
+                    <button class="btn" style="width: 100%; background: transparent; border: 1px solid var(--card-border);" id="backFromNoAccountBtn">
+                        <i class="fas fa-arrow-left"></i>
+                        Volver a intentar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <div class="logo-icon" style="width: 30px; height: 30px; border-radius: 8px;">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <span class="logo-text">Friend`S</span>
+                    </div>
+                    <p style="color: var(--text-gray); max-width: 300px;">
+                        Red social descentralizada que recompensa la consistencia y calidad de las interacciones sociales mediante tokens HIVE.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;">Enlaces Rápidos</h4>
+                    <div class="footer-links">
+                        <a href="index.html" class="nav-link">Inicio</a>
+                        <a href="index.html#how-it-works" class="nav-link">Cómo Funciona</a>
+                        <a href="index.html#streaks" class="nav-link">Sistema de Rachas</a>
+                        <a href="index.html#milestones" class="nav-link">Metas</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;">Legal</h4>
+                    <div class="footer-links">
+                        <a href="#" class="nav-link">Términos de Servicio</a>
+                        <a href="#" class="nav-link">Política de Privacidad</a>
+                        <a href="#" class="nav-link">Política de Cookies</a>
+                        <a href="#" class="nav-link">Aviso Legal</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="margin-bottom: 1.5rem;">Soporte Hive</h4>
+                    <div class="footer-links">
+                        <a href="https://hive.io" target="_blank" class="nav-link">
+                            <i class="fas fa-external-link-alt"></i> Hive Blockchain
+                        </a>
+                        <a href="https://hive-keychain.com" target="_blank" class="nav-link">
+                            <i class="fas fa-wallet"></i> Hive Keychain
+                        </a>
+                        <a href="https://signup.hive.io" target="_blank" class="nav-link">
+                            <i class="fas fa-user-plus"></i> Crear Cuenta Hive
+                        </a>
+                        <a href="https://peakd.com" target="_blank" class="nav-link">
+                            <i class="fas fa-pen-fancy"></i> PeakD
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>
+                    © 2026 Friend`S - Social Network with Streak Reward System.
+                    Todos los derechos reservados.
+                    <br>
+                    Potenciado por Hive Blockchain • Transparente • Descentralizado
+                    <br>
+                    <span style="display: block; margin-top: 1rem; font-size: 0.9rem;">
+                        Developed with precision by <span class="credit">S74R</span>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Keychain Installation Modal -->
+    <div class="modal" id="keychainModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeKeychainModal">&times;</button>
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Instalar Hive Keychain</h2>
+            <p style="color: var(--text-gray); text-align: center; margin-bottom: 2rem;">
+                Hive Keychain es necesario para interactuar de forma segura con Friend`S. Es la forma más segura de iniciar sesión.
+            </p>
+            
+            <div class="qr-container" id="keychainQR">
+                <!-- QR code will be generated here -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep" 
+                   target="_blank" 
+                   class="btn btn-primary" 
+                   style="width: 100%; margin-bottom: 1rem;">
+                    <i class="fab fa-chrome"></i>
+                    Instalar para Chrome
+                </a>
+                <a href="https://addons.mozilla.org/en-US/firefox/addon/hive-keychain/" 
+                   target="_blank" 
+                   class="btn" 
+                   style="width: 100%; background: transparent; border: 1px solid var(--card-border);">
+                    <i class="fab fa-firefox"></i>
+                    Instalar para Firefox
+                </a>
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <button class="btn" style="width: 100%; background: transparent; border: 1px solid var(--card-border);" id="continueWithoutKeychainBtn">
+                    <i class="fas fa-user-lock"></i>
+                    Continuar con inicio manual
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="scripts/hive-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // DOM Elements
+        const initialOptions = document.getElementById('initialOptions');
+        const manualForm = document.getElementById('manualForm');
+        const accountPreview = document.getElementById('accountPreview');
+        const backToOptionsLink = document.getElementById('backToOptionsLink');
+        const loadingState = document.getElementById('loadingState');
+        const successState = document.getElementById('successState');
+        const noAccountState = document.getElementById('noAccountState');
+
+        // Form Elements
+        const usernameInput = document.getElementById('username');
+        const postingKeyInput = document.getElementById('postingKey');
+        const rememberMeCheckbox = document.getElementById('rememberMe');
+
+        // Error Elements
+        const usernameError = document.getElementById('usernameError');
+        const postingKeyError = document.getElementById('postingKeyError');
+
+        // Preview Elements
+        const previewUsername = document.getElementById('previewUsername');
+        const previewReputation = document.getElementById('previewReputation');
+        const previewHive = document.getElementById('previewHive');
+        const previewPosts = document.getElementById('previewPosts');
+        const accountAvatar = document.getElementById('accountAvatar');
+
+        // Buttons
+        const keychainLoginBtn = document.getElementById('keychainLoginBtn');
+        const manualLoginBtn = document.getElementById('manualLoginBtn');
+        const backToOptionsBtn = document.getElementById('backToOptionsBtn');
+        const loginManualBtn = document.getElementById('loginManualBtn');
+        const backToOptionsLinkBtn = document.getElementById('backToOptionsLinkBtn');
+        const goToDashboardBtn = document.getElementById('goToDashboardBtn');
+        const backFromNoAccountBtn = document.getElementById('backFromNoAccountBtn');
+        const continueWithoutKeychainBtn = document.getElementById('continueWithoutKeychainBtn');
+
+        // Modal Elements
+        const keychainModal = document.getElementById('keychainModal');
+        const closeKeychainModal = document.getElementById('closeKeychainModal');
+        const keychainQR = document.getElementById('keychainQR');
+
+        // State
+        let currentView = 'initial'; 
+        let userAccountData = null;
+
+       
+        function showView(view) {
+            
+            initialOptions.style.display = 'none';
+            manualForm.classList.remove('active');
+            accountPreview.classList.remove('active');
+            backToOptionsLink.classList.remove('active');
+            loadingState.classList.remove('active');
+            successState.classList.remove('active');
+            noAccountState.style.display = 'none';
+
+            currentView = view;
+
+            
+            switch(view) {
+                case 'initial':
+                    initialOptions.style.display = 'flex';
+                    break;
+                case 'manual':
+                    manualForm.classList.add('active');
+                    backToOptionsLink.classList.add('active');
+                    break;
+                case 'preview':
+                    accountPreview.classList.add('active');
+                    backToOptionsLink.classList.add('active');
+                    break;
+                case 'loading':
+                    loadingState.classList.add('active');
+                    break;
+                case 'success':
+                    successState.classList.add('active');
+                    break;
+                case 'noAccount':
+                    noAccountState.style.display = 'block';
+                    break;
+            }
+        }
+
+      
+        function validateManualForm() {
+            let isValid = true;
+
+           
+            if (!usernameInput.value.trim()) {
+                usernameError.textContent = 'El nombre de usuario es requerido';
+                usernameError.classList.add('active');
+                usernameInput.classList.add('error');
+                isValid = false;
+            } else if (!hiveAuth.isValidHiveUsername(usernameInput.value.trim())) {
+                usernameError.textContent = 'Usuario Hive inválido. Solo minúsculas, números, puntos y guiones';
+                usernameError.classList.add('active');
+                usernameInput.classList.add('error');
+                isValid = false;
+            } else {
+                usernameError.classList.remove('active');
+                usernameInput.classList.remove('error');
+            }
+
+            
+            if (!postingKeyInput.value.trim()) {
+                postingKeyError.textContent = 'La clave de publicación es requerida';
+                postingKeyError.classList.add('active');
+                postingKeyInput.classList.add('error');
+                isValid = false;
+            } else if (postingKeyInput.value.trim().length < 51) {
+                postingKeyError.textContent = 'La clave de publicación parece inválida';
+                postingKeyError.classList.add('active');
+                postingKeyInput.classList.add('error');
+                isValid = false;
+            } else {
+                postingKeyError.classList.remove('active');
+                postingKeyInput.classList.remove('error');
+            }
+
+            return isValid;
+        }
+
+        
+        function showKeychainModal() {
+          
+            keychainQR.innerHTML = '';
+            new QRCode(keychainQR, {
+                text: 'https://chrome.google.com/webstore/detail/hive-keychain/jcacnejopjdphbnjgfaaobbfafkihpep',
+                width: 200,
+                height: 200,
+                colorDark: '#000000',
+                colorLight: '#ffffff'
+            });
+            keychainModal.classList.add('active');
+        }
+
+        
+        function updateAccountPreview(accountInfo) {
+            if (!accountInfo) return;
+
+            previewUsername.textContent = '@' + accountInfo.name;
+            previewReputation.textContent = 'Reputación: ' + (accountInfo.reputation || '50');
+            
+           
+            const hiveBalance = accountInfo.balance?.hive || '0.000 HIVE';
+            previewHive.textContent = hiveBalance.split(' ')[0] + ' HIVE';
+            
+            previewPosts.textContent = accountInfo.post_count || '0';
+            
+            
+            const avatarText = accountInfo.name ? accountInfo.name.charAt(0).toUpperCase() : 'U';
+            accountAvatar.innerHTML = `<span>${avatarText}</span>`;
+            
+            userAccountData = accountInfo;
+            showView('preview');
+        }
+
+       
+        async function checkAccountExists(username) {
+            try {
+                showView('loading');
+                
+                const accountInfo = await hiveAuth.getAccountInfo(username);
+                
+                if (accountInfo) {
+                    updateAccountPreview(accountInfo);
+                    return true;
+                } else {
+                    showView('noAccount');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error checking account:', error);
+                alert('Error al verificar la cuenta. Por favor, intenta nuevamente.');
+                showView('manual');
+                return false;
+            }
+        }
+
+     
+        async function loginWithManual() {
+            if (!validateManualForm()) return;
+
+            const username = usernameInput.value.trim();
+            const postingKey = postingKeyInput.value.trim();
+
+            try {
+                showView('loading');
+                
+             
+                const userData = await hiveAuth.loginWithHive(username, postingKey);
+                
+                if (userData) {
+                    
+                    const sessionData = {
+                        username: userData.username,
+                        profile: userData.profile,
+                        account: userData.account,
+                        loginMethod: 'manual',
+                        loginTime: new Date().toISOString(),
+                        rememberMe: rememberMeCheckbox.checked
+                    };
+                    
+                    localStorage.setItem('friend_s_user', JSON.stringify(sessionData));
+                    
+                 
+                    showView('success');
+                    
+                   
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Manual login error:', error);
+                
+                if (error.message.includes('account not found')) {
+                    postingKeyError.textContent = 'Cuenta no encontrada o clave inválida';
+                    postingKeyError.classList.add('active');
+                    postingKeyInput.classList.add('error');
+                } else {
+                    postingKeyError.textContent = 'Error de autenticación. Verifica tus credenciales.';
+                    postingKeyError.classList.add('active');
+                    postingKeyInput.classList.add('error');
+                }
+                
+                showView('manual');
+            }
+        }
+
+        
+        keychainLoginBtn.addEventListener('click', async () => {
+            try {
+                showView('loading');
+                
+                
+                const userData = await hiveAuth.loginWithKeychain();
+                
+                if (userData) {
+                    
+                    const sessionData = {
+                        username: userData.username,
+                        profile: userData.profile,
+                        account: userData.account,
+                        loginMethod: 'keychain',
+                        loginTime: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem('friend_s_user', JSON.stringify(sessionData));
+                    
+                   
+                    showView('success');
+                    
+                   
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Keychain login error:', error);
+                
+                if (error.message === 'HIVE_KEYCHAIN_NOT_INSTALLED') {
+                    showKeychainModal();
+                    showView('initial');
+                } else {
+                    alert('Error al iniciar sesión con Keychain: ' + error.message);
+                    showView('initial');
+                }
+            }
+        });
+
+        manualLoginBtn.addEventListener('click', () => {
+            showView('manual');
+        });
+
+        backToOptionsBtn.addEventListener('click', () => {
+            showView('initial');
+        });
+
+        backToOptionsLinkBtn.addEventListener('click', () => {
+            showView('initial');
+        });
+
+        backFromNoAccountBtn.addEventListener('click', () => {
+            showView('initial');
+        });
+
+        continueWithoutKeychainBtn.addEventListener('click', () => {
+            keychainModal.classList.remove('active');
+            showView('manual');
+        });
+
+        loginManualBtn.addEventListener('click', async () => {
+            await loginWithManual();
+        });
+
+        goToDashboardBtn.addEventListener('click', () => {
+            window.location.href = 'dashboard.html';
+        });
+
+        
+        usernameInput.addEventListener('blur', async () => {
+            const username = usernameInput.value.trim();
+            
+            if (username && hiveAuth.isValidHiveUsername(username)) {
+              
+                usernameError.classList.remove('active');
+                usernameInput.classList.remove('error');
+                
+                
+                await checkAccountExists(username);
+            }
+        });
+
+       
+        postingKeyInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginWithManual();
+            }
+        });
+
+        
+        closeKeychainModal.addEventListener('click', () => {
+            keychainModal.classList.remove('active');
+        });
+
+       
+        window.addEventListener('click', (e) => {
+            if (e.target === keychainModal) {
+                keychainModal.classList.remove('active');
+            }
+        });
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const userData = localStorage.getItem('friend_s_user');
+            const hiveSession = localStorage.getItem('friend_s_hive_session');
+            
+            if (userData || hiveSession) {
+                
+                window.location.href = 'dashboard.html';
+            }
+            
+           
+            hiveAuth.on('hive:login', (data) => {
+                console.log('Login successful:', data.user.username);
+            });
+            
+            hiveAuth.on('hive:login-error', (data) => {
+                console.error('Login error:', data.error);
+            });
+            
+            hiveAuth.on('hive:keychain-error', (data) => {
+                console.error('Keychain error:', data.error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Friend`S</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-light: #f1f5f9;
+            --text-gray: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-light));
+            --gradient-danger: linear-gradient(135deg, var(--danger), #f97316);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 30%);
+        }
+
+       
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--darker);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .user-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-stats {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .stat-value.qp {
+            color: var(--accent);
+        }
+
+        .stat-value.hive {
+            color: #ff0080;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .page-title h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-title p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .notifications {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--gradient-danger);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.primary {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .stat-icon.accent {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+
+        .stat-icon.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .stat-icon.danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value-lg {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .trend-up {
+            color: var(--accent);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+        }
+
+        .streaks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .streak-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .streak-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .streak-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .streak-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .streak-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .streak-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .streak-progress {
+            margin: 1.5rem 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-label {
+            color: var(--text-gray);
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+
+        .streak-milestones {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .milestone {
+            text-align: center;
+        }
+
+        .milestone.active {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+       
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .friend-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .friend-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .friend-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .friend-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .friend-info p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .friend-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-online {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+
+        .status-offline {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-gray);
+        }
+
+        .status-active {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        /* Chat Section */
+        .chat-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .chat-header {
+            background: var(--gradient-primary);
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .chat-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: var(--darker);
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-sender {
+            font-weight: 600;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .message-text {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message-outgoing {
+            flex-direction: row-reverse;
+        }
+
+        .message-outgoing .message-content {
+            text-align: right;
+        }
+
+        .message-outgoing .message-header {
+            justify-content: flex-end;
+        }
+
+        .message-outgoing .message-text {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .activity-feed {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .activity-icon.qp {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent);
+        }
+
+        .activity-icon.streak {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .activity-icon.hive {
+            background: rgba(255, 0, 128, 0.2);
+            color: #ff0080;
+        }
+
+        .activity-icon.friend {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-content p {
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .action-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .action-card h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .action-card p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1200px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .streaks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .friends-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="dashboard-container">
+       
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <span class="logo-text">Friend`S</span>
+            </div>
+
+           
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-info">
+                    <h3 id="userName">@usuario</h3>
+                    <p id="userReputation">Reputación: 50</p>
+                </div>
+            </div>
+
+          
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active" id="navDashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#streaks" class="nav-link" id="navStreaks">
+                        <i class="fas fa-fire"></i>
+                        <span>Mis Rachas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#friends" class="nav-link" id="navFriends">
+                        <i class="fas fa-users"></i>
+                        <span>Amigos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#chat" class="nav-link" id="navChat">
+                        <i class="fas fa-comments"></i>
+                        <span>Chat</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#qp" class="nav-link" id="navQP">
+                        <i class="fas fa-star"></i>
+                        <span>Sistema QP</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#rewards" class="nav-link" id="navRewards">
+                        <i class="fas fa-gift"></i>
+                        <span>Recompensas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#settings" class="nav-link" id="navSettings">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
+                    </a>
+                </li>
+            </ul>
+
+            
+            <div class="sidebar-stats">
+                <div class="stat-item">
+                    <span class="stat-label">QP Hoy</span>
+                    <span class="stat-value qp" id="sidebarQPToday">85</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">HIVE Ganado</span>
+                    <span class="stat-value hive" id="sidebarHIVE">12.5</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rachas Activas</span>
+                    <span class="stat-value" id="sidebarStreaks">3</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Amigos</span>
+                    <span class="stat-value" id="sidebarFriends">8</span>
+                </div>
+            </div>
+
+           
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 2rem;" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Cerrar Sesión
+            </button>
+        </aside>
+
+       
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                    <p>Bienvenido de vuelta a Friend`S. ¡Tu progreso de hoy!</p>
+                </div>
+                
+                <div class="top-actions">
+                    <button class="btn btn-primary" id="newStreakBtn">
+                        <i class="fas fa-plus"></i>
+                        Nueva Racha
+                    </button>
+                    
+                    <button class="btn btn-secondary" id="addFriendBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Agregar Amigo
+                    </button>
+                    
+                    <div class="notifications">
+                        <button class="btn btn-secondary" id="notificationsBtn">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <span class="notification-badge" id="notificationCount">3</span>
+                    </div>
+                    
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-header">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Racha Más Larga</div>
+                            <div class="stat-value-lg" id="longestStreak">15 días</div>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span class="trend-up">+2 días esta semana</span>
+                    </div>
+                </div>
+
+                <div class="stat-card fade-in" style="animation-delay: 0.1s;">
+                    <div class="stat-header">
+                        <div class="stat-icon accent">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Quality Points</div>
+                            <div class="stat-value-lg" id="totalQP">1,250</div>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span class="trend-up">+85 hoy</span>
+                    </div>
+                </div>
+
+                <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="stat-header">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">HIVE Ganado Total</div>
+                            <div class="stat-value-lg" id="totalHIVE">42.5</div>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span class="trend-up">+2.5 esta semana</span>
+                    </div>
+                </div>
+
+                <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                    <div class="stat-header">
+                        <div class="stat-icon danger">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Multiplicador Actual</div>
+                            <div class="stat-value-lg" id="currentMultiplier">×1.5</div>
+                        </div>
+                    </div>
+                    <div class="stat-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span class="trend-up">Nivel Oro activado</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Streaks Section -->
+            <div class="section-header">
+                <div>
+                    <h2>Rachas Activas</h2>
+                    <p>Tus conversaciones activas con recompensas pendientes</p>
+                </div>
+                <a href="streaks.html" class="btn btn-secondary">
+                    Ver Todas
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="streaks-grid">
+                <!-- Streak Card 1 -->
+                <div class="streak-card fade-in">
+                    <div class="streak-header">
+                        <div class="streak-avatar">J</div>
+                        <div class="streak-info">
+                            <h4>@juanperez</h4>
+                            <p>Mejor amigo • Gaming Squad</p>
+                        </div>
+                    </div>
+                    
+                    <div class="streak-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Progreso</span>
+                            <span class="progress-value">Día 8/10</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 80%;"></div>
+                        </div>
+                        <div class="streak-milestones">
+                            <span class="milestone">Día 3</span>
+                            <span class="milestone active">Día 10</span>
+                            <span class="milestone">Día 20</span>
+                            <span class="milestone">Día 30</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: var(--text-gray);">Próxima Recompensa</div>
+                            <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">+2 HIVE</div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;">
+                            <i class="fas fa-comment"></i>
+                            Chatear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Streak Card 2 -->
+                <div class="streak-card fade-in" style="animation-delay: 0.1s;">
+                    <div class="streak-header">
+                        <div class="streak-avatar">M</div>
+                        <div class="streak-info">
+                            <h4>@maria_tech</h4>
+                            <p>Study Buddies • Web3 Dev</p>
+                        </div>
+                    </div>
+                    
+                    <div class="streak-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Progreso</span>
+                            <span class="progress-value">Día 15/20</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                        <div class="streak-milestones">
+                            <span class="milestone">Día 3</span>
+                            <span class="milestone">Día 10</span>
+                            <span class="milestone active">Día 20</span>
+                            <span class="milestone">Día 30</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: var(--text-gray);">Próxima Recompensa</div>
+                            <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">+5 HIVE</div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;">
+                            <i class="fas fa-comment"></i>
+                            Chatear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Streak Card 3 -->
+                <div class="streak-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="streak-header">
+                        <div class="streak-avatar">A</div>
+                        <div class="streak-info">
+                            <h4>@alejandro_art</h4>
+                            <p>Art Community • NFT Creator</p>
+                        </div>
+                    </div>
+                    
+                    <div class="streak-progress">
+                        <div class="progress-info">
+                            <span class="progress-label">Progreso</span>
+                            <span class="progress-value">Día 25/30</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 83%;"></div>
+                        </div>
+                        <div class="streak-milestones">
+                            <span class="milestone">Día 3</span>
+                            <span class="milestone">Día 10</span>
+                            <span class="milestone">Día 20</span>
+                            <span class="milestone active">Día 30</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: var(--text-gray);">Próxima Recompensa</div>
+                            <div style="font-size: 1.25rem; font-weight: 700; color: var(--accent);">+10 HIVE</div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1rem;">
+                            <i class="fas fa-comment"></i>
+                            Chatear
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Friends Section -->
+            <div class="section-header">
+                <div>
+                    <h2>Amigos Activos</h2>
+                    <p>Conecta con amigos para mantener tus rachas</p>
+                </div>
+                <a href="friends.html" class="btn btn-secondary">
+                    Ver Todos
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="friends-grid">
+                <!-- Friend 1 -->
+                <div class="friend-card fade-in">
+                    <div class="friend-avatar">C</div>
+                    <div class="friend-info">
+                        <h4>@carlos_dev</h4>
+                        <p>Última vez: Hoy</p>
+                        <span class="friend-status status-online">
+                            <i class="fas fa-circle"></i>
+                            Online
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Friend 2 -->
+                <div class="friend-card fade-in" style="animation-delay: 0.1s;">
+                    <div class="friend-avatar">L</div>
+                    <div class="friend-info">
+                        <h4>@laura_music</h4>
+                        <p>Última vez: 2h</p>
+                        <span class="friend-status status-active">
+                            <i class="fas fa-fire"></i>
+                            Activo
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Friend 3 -->
+                <div class="friend-card fade-in" style="animation-delay: 0.2s;">
+                    <div class="friend-avatar">R</div>
+                    <div class="friend-info">
+                        <h4>@roberto_gamer</h4>
+                        <p>Última vez: Ayer</p>
+                        <span class="friend-status status-online">
+                            <i class="fas fa-circle"></i>
+                            Online
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Friend 4 -->
+                <div class="friend-card fade-in" style="animation-delay: 0.3s;">
+                    <div class="friend-avatar">S</div>
+                    <div class="friend-info">
+                        <h4>@sofia_web3</h4>
+                        <p>Última vez: 5h</p>
+                        <span class="friend-status status-offline">
+                            <i class="fas fa-circle"></i>
+                            Offline
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="section-header">
+                <div>
+                    <h2>Chat en Tiempo Real</h2>
+                    <p>Mantén tus rachas activas con conversaciones de calidad</p>
+                </div>
+                <button class="btn btn-secondary" id="clearChatBtn">
+                    <i class="fas fa-trash"></i>
+                    Limpiar Chat
+                </button>
+            </div>
+
+            <div class="chat-container fade-in">
+                <div class="chat-header">
+                    <h3>
+                        <i class="fas fa-comments"></i>
+                        Chat con @juanperez • Racha activa: 8 días
+                    </h3>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Message 1 -->
+                    <div class="message">
+                        <div class="message-avatar">J</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">@juanperez</span>
+                                <span class="message-time">10:30 AM</span>
+                            </div>
+                            <div class="message-text">
+                                ¡Hola! ¿Viste el nuevo juego que salió? Se ve increíble para nuestra gaming squad.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 2 -->
+                    <div class="message message-outgoing">
+                        <div class="message-avatar" id="currentUserAvatar">U</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-time">10:32 AM</span>
+                                <span class="message-sender">Tú</span>
+                            </div>
+                            <div class="message-text">
+                                ¡Sí! Justo lo estaba viendo. ¿Quieres que organicemos una sesión este fin de semana? Podríamos ganar QP extra jugando juntos.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 3 -->
+                    <div class="message">
+                        <div class="message-avatar">J</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">@juanperez</span>
+                                <span class="message-time">10:35 AM</span>
+                            </div>
+                            <div class="message-text">
+                                ¡Perfecto! Además estamos cerca de llegar al día 10 de racha. +2 HIVE cada uno 🎮💰
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 4 -->
+                    <div class="message message-outgoing">
+                        <div class="message-avatar" id="currentUserAvatar2">U</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-time">10:37 AM</span>
+                                <span class="message-sender">Tú</span>
+                            </div>
+                            <div class="message-text">
+                                Excelente. Te mando los detalles por aquí. ¡No olvides mantener la racha activa hoy! 🚀
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje aquí...">
+                    <button class="btn btn-primary" id="sendMessageBtn">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="section-header">
+                <div>
+                    <h2>Actividad Reciente</h2>
+                    <p>Tus logros y notificaciones más recientes</p>
+                </div>
+                <button class="btn btn-secondary" id="markAllReadBtn">
+                    <i class="fas fa-check"></i>
+                    Marcar Todo Leído
+                </button>
+            </div>
+
+            <div class="activity-feed fade-in">
+                <!-- Activity 1 -->
+                <div class="activity-item">
+                    <div class="activity-icon qp">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p><strong>+25 QP</strong> por conversación de calidad con @maria_tech</p>
+                        <div class="activity-time">Hace 2 horas</div>
+                    </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div class="activity-item">
+                    <div class="activity-icon streak">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p><strong>Racha alcanzada:</strong> Día 15 con @alejandro_art</p>
+                        <div class="activity-time">Hace 5 horas</div>
+                    </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div class="activity-item">
+                    <div class="activity-icon hive">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p><strong>+0.5 HIVE</strong> reclamado por racha de 3 días</p>
+                        <div class="activity-time">Ayer</div>
+                    </div>
+                </div>
+
+                <!-- Activity 4 -->
+                <div class="activity-item">
+                    <div class="activity-icon friend">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p><strong>Nuevo amigo:</strong> @sofia_web3 aceptó tu solicitud</p>
+                        <div class="activity-time">Hace 2 días</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-header">
+                <h2>Acciones Rápidas</h2>
+                <p>Gestiona tu experiencia en Friend`S</p>
+            </div>
+
+            <div class="quick-actions">
+                <div class="action-card fade-in" onclick="window.location.href='streaks.html'">
+                    <div class="action-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h4>Gestionar Rachas</h4>
+                    <p>Ver todas tus rachas activas y recompensas pendientes</p>
+                </div>
+
+                <div class="action-card fade-in" style="animation-delay: 0.1s;" onclick="window.location.href='friends.html'">
+                    <div class="action-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Encontrar Amigos</h4>
+                    <p>Descubre nuevos usuarios y construye tu red social</p>
+                </div>
+
+                <div class="action-card fade-in" style="animation-delay: 0.2s;" onclick="window.location.href='chat.html'">
+                    <div class="action-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4>Chat Global</h4>
+                    <p>Únete a conversaciones grupales y gana QP extra</p>
+                </div>
+
+                <div class="action-card fade-in" style="animation-delay: 0.3s;" onclick="window.location.href='rewards.html'">
+                    <div class="action-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h4>Reclamar Recompensas</h4>
+                    <p>Revisa y reclama tus recompensas acumuladas</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="scripts/hive-auth.js"></script>
+    <script>
+        
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const chatMessages = document.getElementById('chatMessages');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+        const markAllReadBtn = document.getElementById('markAllReadBtn');
+        const notificationCount = document.getElementById('notificationCount');
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        const newStreakBtn = document.getElementById('newStreakBtn');
+        const addFriendBtn = document.getElementById('addFriendBtn');
+
+        
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const userReputation = document.getElementById('userReputation');
+        const currentUserAvatar = document.getElementById('currentUserAvatar');
+        const currentUserAvatar2 = document.getElementById('currentUserAvatar2');
+
+        
+        const sidebarQPToday = document.getElementById('sidebarQPToday');
+        const sidebarHIVE = document.getElementById('sidebarHIVE');
+        const sidebarStreaks = document.getElementById('sidebarStreaks');
+        const sidebarFriends = document.getElementById('sidebarFriends');
+        const longestStreak = document.getElementById('longestStreak');
+        const totalQP = document.getElementById('totalQP');
+        const totalHIVE = document.getElementById('totalHIVE');
+        const currentMultiplier = document.getElementById('currentMultiplier');
+
+        
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navDashboard = document.getElementById('navDashboard');
+        const navStreaks = document.getElementById('navStreaks');
+        const navFriends = document.getElementById('navFriends');
+        const navChat = document.getElementById('navChat');
+        const navQP = document.getElementById('navQP');
+        const navRewards = document.getElementById('navRewards');
+        const navSettings = document.getElementById('navSettings');
+
+       
+        let currentUser = null;
+        let userStats = {
+            qpToday: 85,
+            hiveEarned: 12.5,
+            activeStreaks: 3,
+            totalFriends: 8,
+            longestStreak: '15 días',
+            totalQP: 1250,
+            totalHIVE: 42.5,
+            multiplier: '×1.5',
+            reputation: 50
+        };
+
+      
+        function initDashboard() {
+            checkLoginStatus();
+            loadUserData();
+            updateStats();
+            setupEventListeners();
+            animateProgressBars();
+            
+            console.log('📊 Dashboard inicializado');
+        }
+
+        
+        function checkLoginStatus() {
+            if (window.hiveAuth && hiveAuth.isAuthenticated()) {
+                currentUser = hiveAuth.getCurrentUser();
+            } else {
+                const userData = localStorage.getItem('friend_s_user');
+                if (userData) {
+                    currentUser = JSON.parse(userData);
+                } else {
+                    window.location.href = 'login.html';
+                    return;
+                }
+            }
+            
+            if (!currentUser) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        
+        function loadUserData() {
+            if (currentUser) {
+                const username = currentUser.username || currentUser.profile?.name || 'usuario';
+                userName.textContent = '@' + username;
+                
+                const avatarText = username.charAt(0).toUpperCase();
+                userAvatar.textContent = avatarText;
+                currentUserAvatar.textContent = avatarText;
+                currentUserAvatar2.textContent = avatarText;
+                
+                const reputation = currentUser.profile?.reputation || currentUser.account?.reputation || 50;
+                userReputation.textContent = 'Reputación: ' + reputation;
+                
+                if (currentUser.stats) {
+                    userStats = { ...userStats, ...currentUser.stats };
+                }
+            }
+        }
+
+       
+        function updateStats() {
+            sidebarQPToday.textContent = userStats.qpToday;
+            sidebarHIVE.textContent = userStats.hiveEarned;
+            sidebarStreaks.textContent = userStats.activeStreaks;
+            sidebarFriends.textContent = userStats.totalFriends;
+            longestStreak.textContent = userStats.longestStreak;
+            totalQP.textContent = userStats.totalQP.toLocaleString();
+            totalHIVE.textContent = userStats.totalHIVE;
+            currentMultiplier.textContent = userStats.multiplier;
+        }
+
+        
+        function setupEventListeners() {
+            mobileMenuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    if (window.hiveAuth) {
+                        hiveAuth.logout();
+                    }
+                    
+                    localStorage.removeItem('friend_s_user');
+                    window.location.href = 'login.html';
+                }
+            });
+
+            sendMessageBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            clearChatBtn.addEventListener('click', () => {
+                if (confirm('¿Limpiar todo el historial de chat?')) {
+                    chatMessages.innerHTML = '';
+                    addSystemMessage('Historial de chat limpiado.');
+                }
+            });
+
+            markAllReadBtn.addEventListener('click', () => {
+                notificationCount.textContent = '0';
+                notificationCount.style.display = 'none';
+                showToast('Todas las notificaciones marcadas como leídas');
+            });
+
+            notificationsBtn.addEventListener('click', () => {
+                showNotifications();
+            });
+
+            newStreakBtn.addEventListener('click', () => {
+                window.location.href = 'streaks.html?new=true';
+            });
+
+            addFriendBtn.addEventListener('click', () => {
+                window.location.href = 'friends.html?add=true';
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    const target = link.getAttribute('href').substring(1);
+                    navigateTo(target);
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1200) {
+                    if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+      
+        function navigateTo(section) {
+            const element = document.getElementById(section);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                window.location.href = section + '.html';
+            }
+            
+            if (window.innerWidth <= 1200) {
+                sidebar.classList.remove('active');
+            }
+        }
+
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            
+            if (message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message message-outgoing';
+                
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0');
+                
+                const avatarText = currentUserAvatar.textContent;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${avatarText}</div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-time">${timeString}</span>
+                            <span class="message-sender">Tú</span>
+                        </div>
+                        <div class="message-text">${message}</div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatInput.value = '';
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                simulateResponse(message);
+                addQP(1, 'Mensaje enviado');
+            }
+        }
+
+        function simulateResponse(userMessage) {
+            setTimeout(() => {
+                const responses = [
+                    "¡Interesante! ¿Podrías contarme más sobre eso?",
+                    "Estoy de acuerdo contigo. ¿Qué piensas de...?",
+                    "¡Excelente punto! Eso me recuerda que...",
+                    "Gracias por compartir. ¿Has considerado...?",
+                    "Me encanta esta conversación. ¡Sigamos construyendo nuestra racha! 🔥"
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 (now.getMinutes() + 1).toString().padStart(2, '0');
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">J</div>
+                    <div class="message-content">
+                        <div class="message-header">
+                            <span class="message-sender">@juanperez</span>
+                            <span class="message-time">${timeString}</span>
+                        </div>
+                        <div class="message-text">${randomResponse}</div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                addQP(2, 'Respuesta recibida');
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function addSystemMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.style.opacity = '0.7';
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar" style="background: var(--text-gray);">
+                    <i class="fas fa-info"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-text" style="background: rgba(148, 163, 184, 0.1);">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+      
+        function addQP(amount, reason) {
+            userStats.qpToday += amount;
+            userStats.totalQP += amount;
+            
+            sidebarQPToday.textContent = userStats.qpToday;
+            totalQP.textContent = userStats.totalQP.toLocaleString();
+            
+            checkMultiplierUpgrade();
+            showToast(`+${amount} QP: ${reason}`);
+            addActivity('qp', `+${amount} QP por ${reason.toLowerCase()}`);
+            saveUserStats();
+        }
+
+        function checkMultiplierUpgrade() {
+            const oldMultiplier = userStats.multiplier;
+            
+            if (userStats.qpToday >= 200 && userStats.multiplier !== '×2.0') {
+                userStats.multiplier = '×2.0';
+                currentMultiplier.textContent = userStats.multiplier;
+                showToast('¡Nivel Diamante alcanzado! Multiplicador ×2.0 activado');
+                addActivity('streak', 'Nivel Diamante alcanzado: ×2.0 multiplicador');
+            } else if (userStats.qpToday >= 100 && userStats.multiplier !== '×1.5') {
+                userStats.multiplier = '×1.5';
+                currentMultiplier.textContent = userStats.multiplier;
+                showToast('¡Nivel Oro alcanzado! Multiplicador ×1.5 activado');
+                addActivity('streak', 'Nivel Oro alcanzado: ×1.5 multiplicador');
+            }
+            
+            if (oldMultiplier !== userStats.multiplier) {
+                saveUserStats();
+            }
+        }
+
+        
+        function addActivity(type, text) {
+            const activityFeed = document.querySelector('.activity-feed');
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item fade-in';
+            
+            const icons = {
+                qp: { icon: 'star', class: 'qp' },
+                streak: { icon: 'fire', class: 'streak' },
+                hive: { icon: 'coins', class: 'hive' },
+                friend: { icon: 'user-plus', class: 'friend' }
+            };
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            activityItem.innerHTML = `
+                <div class="activity-icon ${icons[type]?.class || 'qp'}">
+                    <i class="fas fa-${icons[type]?.icon || 'star'}"></i>
+                </div>
+                <div class="activity-content">
+                    <p><strong>${text}</strong></p>
+                    <div class="activity-time">${timeString}</div>
+                </div>
+            `;
+            
+            activityFeed.insertBefore(activityItem, activityFeed.firstChild);
+            
+            const activities = activityFeed.querySelectorAll('.activity-item');
+            if (activities.length > 10) {
+                activities[activities.length - 1].remove();
+            }
+        }
+
+       
+        function showNotifications() {
+            const notifications = [
+                { text: '@maria_tech quiere iniciar una racha contigo', time: '5 min' },
+                { text: 'Racha con @alejandro_art cerca de expirar', time: '1h' },
+                { text: '+5 HIVE disponible para reclamar', time: '2h' }
+            ];
+            
+            let dropdown = document.getElementById('notificationsDropdown');
+            if (!dropdown) {
+                dropdown = document.createElement('div');
+                dropdown.id = 'notificationsDropdown';
+                dropdown.style.cssText = `
+                    position: absolute;
+                    top: 60px;
+                    right: 0;
+                    background: var(--card-bg);
+                    border: 1px solid var(--card-border);
+                    border-radius: var(--radius-lg);
+                    width: 300px;
+                    max-height: 400px;
+                    overflow-y: auto;
+                    box-shadow: var(--shadow-lg);
+                    z-index: 1000;
+                `;
+                
+                dropdown.innerHTML = `
+                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--card-border);">
+                        <h4 style="margin-bottom: 0.5rem;">Notificaciones</h4>
+                        <p style="color: var(--text-gray); font-size: 0.9rem;">${notifications.length} sin leer</p>
+                    </div>
+                    <div id="notificationsList" style="padding: 1rem;"></div>
+                    <div style="padding: 1rem; border-top: 1px solid var(--card-border); text-align: center;">
+                        <button id="viewAllNotifications" class="btn btn-secondary" style="width: 100%;">
+                            Ver todas las notificaciones
+                        </button>
+                    </div>
+                `;
+                
+                document.querySelector('.top-actions').appendChild(dropdown);
+                
+                const notificationsList = document.getElementById('notificationsList');
+                notifications.forEach(notification => {
+                    const notifItem = document.createElement('div');
+                    notifItem.style.cssText = `
+                        padding: 1rem;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                        cursor: pointer;
+                        transition: background 0.3s;
+                    `;
+                    notifItem.onmouseover = () => notifItem.style.background = 'rgba(255, 255, 255, 0.05)';
+                    notifItem.onmouseout = () => notifItem.style.background = 'transparent';
+                    
+                    notifItem.addEventListener('click', () => {
+                        showToast(`Notificación: ${notification.text}`);
+                        dropdown.remove();
+                    });
+                    
+                    notifItem.innerHTML = `
+                        <p style="margin-bottom: 0.5rem;">${notification.text}</p>
+                        <div style="font-size: 0.8rem; color: var(--text-gray);">Hace ${notification.time}</div>
+                    `;
+                    
+                    notificationsList.appendChild(notifItem);
+                });
+                
+                document.getElementById('viewAllNotifications').addEventListener('click', () => {
+                    window.location.href = 'notifications.html';
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!dropdown.contains(e.target) && e.target !== notificationsBtn) {
+                        dropdown.remove();
+                    }
+                });
+            } else {
+                dropdown.remove();
+            }
+        }
+
+       
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                background: var(--card-bg);
+                border: 1px solid var(--card-border);
+                border-radius: var(--radius-md);
+                padding: 1rem 1.5rem;
+                color: var(--text-light);
+                box-shadow: var(--shadow-lg);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            `;
+            
+            toast.innerHTML = `
+                <i class="fas fa-check-circle" style="color: var(--accent);"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+            
+            if (!document.getElementById('toastAnimations')) {
+                const style = document.createElement('style');
+                style.id = 'toastAnimations';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        
+        function animateProgressBars() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                
+                setTimeout(() => {
+                    bar.style.transition = 'width 1.5s ease-in-out';
+                    bar.style.width = width;
+                }, 300);
+            });
+        }
+
+        
+        function saveUserStats() {
+            if (currentUser) {
+                currentUser.stats = userStats;
+                localStorage.setItem('friend_s_user', JSON.stringify(currentUser));
+            }
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', initDashboard);
+
+       
+        setInterval(() => {
+            const count = Math.floor(Math.random() * 5);
+            if (count > 0) {
+                notificationCount.textContent = count;
+                notificationCount.style.display = 'flex';
+            }
+        }, 30000);
+
+        setInterval(() => {
+            if (document.hasFocus()) {
+                const shouldAddQP = Math.random() > 0.7; 
+                if (shouldAddQP) {
+                    addQP(1, 'Actividad continua');
+                }
+            }
+        }, 60000);
+    </script>
+</body>
+</html>
