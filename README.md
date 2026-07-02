@@ -1,40 +1,40 @@
-# Friend-S 🌟
+ #Friend-S 🌟
 
-¡Bienvenido a **Friend-S**! Una plataforma social moderna diseñada para conectar personas, fomentar la interacción y recompensar la actividad de los usuarios. Este proyecto es una interfaz web (frontend) desarrollada con tecnologías web clásicas (Vanilla JS, HTML, CSS), enfocada en un rendimiento fluido y una experiencia de usuario intuitiva.
+Welcome to **Friend-S**! A modern social platform designed to connect people, encourage interaction and reward user activity. This project is a web interface (frontend) developed with classic web technologies (Vanilla JS, HTML, CSS), focused on smooth performance and an intuitive user experience.
 
-## 🚀 Características Principales
+## 🚀 Main Features
 
-- **🔑 Autenticación de Usuarios (`login.html`)**: Sistema de acceso seguro para los usuarios.
-- **📊 Panel Principal (`dashboard.html`)**: Resumen de actividad y navegación central de la plataforma.
-- **💬 Chat en Tiempo Real (`chat.html`)**: Interfaz de mensajería interactiva para mantener conversaciones fluidas.
-- **👥 Gestión de Amigos (`friends.html`)**: Panel para añadir, eliminar y gestionar tu lista de contactos.
-- **🔔 Notificaciones (`notifications.html`)**: Centro de alertas sobre mensajes, solicitudes y actividades relevantes.
-- **🔥 Rachas de Actividad (`streaks.html`)**: Sistema de gamificación para fomentar la constancia y participación diaria del usuario.
-- **🎁 Recompensas y Puntos (`rewards.html`, `qp.html`)**: Sección de logros, misiones (Quests) y recompensas para usuarios activos.
-- **⚙️ Configuración (`settings.html`)**: Personalización del perfil, temas y ajustes generales de la cuenta.
+- **🔑 User Authentication (`login.html`)**: Secure access system for users.
+- **📊 Main Panel (`dashboard.html`)**: Summary of activity and central navigation of the platform.
+- **💬 Real Time Chat (`chat.html`)**: Interactive messaging interface to maintain fluid conversations.
+- **👥 Friends Management (`friends.html`)**: Panel to add, delete and manage your contact list.
+- **🔔 Notifications (`notifications.html`)**: Alert center about relevant messages, requests and activities.
+- **🔥 Activity Streaks (`streaks.html`)**: Gamification system to encourage the user's daily participation and consistency.
+- **🎁 Rewards and Points (`rewards.html`, `qp.html`)**: Achievements, missions (Quests) and rewards section for active users.
+- **⚙️ Settings (`settings.html`)**: Profile customization, themes and general account settings.
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Technologies Used
 
-- **HTML5**: Estructura semántica de todas las vistas y páginas de la aplicación.
-- **CSS3 / Vanilla CSS**: Estilos limpios, modernos y un diseño completamente adaptable (responsive) a diferentes dispositivos.
-- **Vanilla JavaScript**: Lógica del lado del cliente, manipulación dinámica del DOM y manejo de interactividad, centralizado en el directorio de scripts.
+- **HTML5**: Semantic structure of all the views and pages of the application.
+- **CSS3 / Vanilla CSS**: Clean, modern styles and a completely adaptable design (responsive) to different devices.
+- **Vanilla JavaScript**: Client-side logic, dynamic DOM manipulation and interactivity management, centralized in the scripts directory.
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```text
 Friend-S/
 ├── assets/
-│   └── images/          # Recursos gráficos, iconos y logotipos
-├── config/              # Archivos de configuración del proyecto
-├── scripts/             # Lógica en JavaScript de la aplicación
-├── chat.html            # Interfaz de chat
-├── dashboard.html       # Panel principal de usuario
-├── friends.html         # Lista y gestión de amigos
-├── index.html           # Página de inicio / Landing page
-├── login.html           # Control de acceso de usuarios
-├── notifications.html   # Centro de notificaciones
-├── qp.html              # Gestión de puntos y misiones (Quest Points)
-├── rewards.html         # Sección de recompensas del sistema
-├── settings.html        # Ajustes y configuración de usuario
-├── streaks.html         # Sistema de control de rachas diarias
-└── README.md            # Documentación del proyecto
+│ └── images/ # Graphic resources, icons and logos
+├── config/ # Project configuration files
+├── scripts/ # Application JavaScript logic
+├── chat.html # Chat interface
+├── dashboard.html # Main user dashboard
+├── friends.html # Friends list and management
+├── index.html # Home page / Landing page
+├── login.html # User access control
+├── notifications.html # Notification Center
+├── qp.html # Points and quest management (Quest Points)
+├── rewards.html # System rewards section
+├── settings.html # User settings and configuration
+├── streaks.html # Daily streak control system
+└── README.md # Project documentation
